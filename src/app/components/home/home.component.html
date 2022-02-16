@@ -1,0 +1,43 @@
+<div *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState" class="container">
+
+    <div *ngSwitchCase="DataState.LOADING">
+
+    </div>
+
+    <div  *ngSwitchCase="DataState.LOADED">
+    
+        <div >
+            <h1 class="text-center mb-4">ERROTIMATOLOGIA</h1>
+            
+            <div class="row filtr-container">
+                <div *ngFor="let questionnaire of appState.appData" class="col-md-6 col-lg-4"  style="padding: 25px;">
+
+                    <div  class="card border-dark">
+                        <div class="card-header bg-dark text-light">
+                            <h5 class="m-0">{{questionnaire.name}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+                        <div *ngIf="(isUser$|async)" class="d-flex card-footer">
+                            <a href="{{'/quest?id='+questionnaire.id}}" class="btn btn-primary stretched-link">Go somewhere</a>
+                        </div>
+                        <div *ngIf="(isAdmin$|async)" class="d-flex card-footer">
+                            <a href="{{'/qresult?id='+questionnaire.id}}" class="btn btn-primary stretched-link">See Results</a>
+                        </div>
+                    </div>
+
+                </div>
+               
+                
+                
+               
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngSwitchCase="DataState.ERROR">
+
+    </div>
+</div>

@@ -1,0 +1,6 @@
+.row:nth-of-type(odd) div {
+  background-color:lightgrey;
+}
+.row:nth-of-type(even) div {
+  background: #ffffff;
+}

@@ -11,3 +11,35 @@
   <app-root></app-root>
 </body>
 </html>
+<script>
+  var slideIndex = 1;
+  showDivs(slideIndex);
+  
+  function plusDivs(n) {
+    showDivs(slideIndex += n);
+  }
+  
+  function currentDiv(n) {
+    showDivs(slideIndex = n);
+  }
+
+  function showCounter(){
+    document.getElementById("reCounter").style.display="block";
+    document.getElementById("counter").innerHTML = slideIndex -1;
+  }
+  
+  function showDivs(n) {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+
+
+    if (n > x.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = x.length}
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+
+    x[slideIndex-1].style.display = "block";  
+
+  }
+  </script>

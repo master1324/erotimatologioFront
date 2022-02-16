@@ -1,0 +1,69 @@
+<div *ngIf="(qIdentifierState$ | async) as identifiersState" [ngSwitch]="identifiersState.dataState"
+    style="margin: 15px;">
+
+    <!--LOADING-->
+    <div *ngSwitchCase="DataState.LOADING" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+    <!--LOADED-->
+    <div *ngSwitchCase="DataState.LOADED">
+
+        <h3>{{identifiersState.appData.name}}</h3>
+        <div class="accordion" id="accordionIdentifiers">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Identifiers
+                    </button>
+                </h2>
+
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionIdentifiers">
+                    <div class="accordion-body">
+
+                        <form #identifierForm="ngForm" (ngSubmit)="setFilter(identifierForm)">
+
+                            <div style="max-height: 250px;margin-left: 0px;padding-left: 0px;"
+                                class="container d-flex flex-column flex-wrap  align-items-xl-start justify-content-between">
+
+                                <div style="width: 20vw;flex-basis: 50%;"
+                                    *ngFor="let identifier of identifiersState.appData.eligibleResponsesIdentifiers | keyvalue;let i = index">
+
+                                    <label style="margin-bottom: 5px;">{{identifier.key}}</label>
+
+                                    <select class="form-select  " name="{{'select'+i}}" required
+                                        aria-label=".form-select-lg example" ngModel>
+                                        <option *ngFor="let object of identifier.value;let j = index"
+                                            value="{{object.id}}">
+                                            {{object.name}}</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div style="margin-top: 10px;"
+                                class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
+                                <input type="submit" value="Set Identifiers" class="btn btn-primary" [disabled]="identifierForm.invalid">
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--ERROR-->
+    <div *ngSwitchCase="DataState.ERROR">
+        ERROR
+    </div>
+
+</div>

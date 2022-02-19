@@ -48,7 +48,13 @@ export class QuestionnaireReactiveComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       this.questionnaireId = params['id'];
+      this.filter=params['filter'];
     });
+    console.log(this.filter);
+    if(this.filter!= undefined){
+      this.initiateBody(this.questionnaireId,this.filter)
+      this.bodyPresent =true;
+    }
 
   }
 

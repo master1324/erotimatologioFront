@@ -4,5 +4,6 @@ export interface QuestionnaireResponse{
     questionnaireId:number;
     userId:number;
     filter:string;
+    name:string;
     decodedFilter?:Record<string,string>;
 }

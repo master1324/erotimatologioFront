@@ -21,7 +21,7 @@ export class ResponseService {
   }
 
   questionnaireResponses$ = <Observable<QuestionnaireResponse[]>>
-  this.http.get<QuestionnaireResponse[]>( config.apiUrl +'/quest/all')
+  this.http.get<QuestionnaireResponse[]>( config.apiUrl +'/response/all_quest_responses')
   .pipe(
     tap(console.log),
     catchError(this.handleError)

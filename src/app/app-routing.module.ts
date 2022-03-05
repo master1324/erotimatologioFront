@@ -5,6 +5,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { UserGuard } from './auth/user.guard';
 import { AddQuestionnaireComponent } from './components/add-questionnaire/add-questionnaire.component';
+import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { QuestionnaireReactiveComponent } from './components/questionnaire-reactive/questionnaire-reactive.component';
@@ -17,6 +18,7 @@ import { SeeResponsesComponent } from './components/see-responses/see-responses.
 const routes: Routes = [
   {path:'',component:HomeComponent,canActivate:[AuthenticatedGuard]},
   {path:'signup',component:RegisterComponent},
+  {path:'confirm',component:EmailConfirmComponent},
   {path:'login',component:LoginComponent,canActivate:[AuthGuard]},
   {path:'home',component:HomeComponent,canActivate:[AuthenticatedGuard]},
   {path:'q',component:QuestionnaireComponent,canActivate:[AuthenticatedGuard]},

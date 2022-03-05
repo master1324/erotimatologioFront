@@ -5,6 +5,7 @@ import { catchError, mapTo, take, tap } from 'rxjs/operators';
 import { config } from '../config/config';
 import { Tokens } from '../objects/model/token';
 import { Role } from '../objects/model/role';
+import { AppError } from '../objects/model/app_error';
 
 
 @Injectable({
@@ -27,11 +28,7 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/login`, params)
       .pipe(
         tap(tokens => this.doLoginUser(user.username, tokens)),
-        mapTo(true),
-        catchError(error => {
-          console.log(error.error);
-          return of(false);
-        }));
+        mapTo(true));
   }
 
   logout() {
@@ -46,11 +43,6 @@ export class AuthService {
         return of(false);
       }));
   }
-
-  public getRoles():Observable<string[]>{
-    return this.http.get<string[]>(`${config.apiUrl}/roles`);
-  }
-
 
 
   isUser$ = <Observable<boolean>>
@@ -121,7 +113,8 @@ export class AuthService {
 
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    console.log(error);
+    //console.log(error);
+    //console.log(error.error);
     return throwError('Error occured');
   }
 }

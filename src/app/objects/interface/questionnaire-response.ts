@@ -1,4 +1,4 @@
-export interface QuestionnaireResponse{
+export class QuestionnaireResponse{
 
     id:number;
     questionnaireId:number;

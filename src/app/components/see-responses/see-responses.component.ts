@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { stringify } from 'querystring';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
@@ -6,6 +7,7 @@ import { IdentifierType } from 'src/app/objects/enum/identifier-type.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { QuestionnaireResponse } from 'src/app/objects/interface/questionnaire-response';
+import { Test } from 'src/app/objects/interface/test';
 import { ResponseService } from 'src/app/service/response.service';
 
 @Component({
@@ -15,7 +17,7 @@ import { ResponseService } from 'src/app/service/response.service';
 })
 export class SeeResponsesComponent implements OnInit {
 
-  public qResponsesState$: Observable<AppState<QuestionnaireResponse[]>>;
+  public qResponsesState$: Observable<AppState<Record<string,QuestionnaireResponse[]>>>;
   readonly DataState = DataState;
 
   constructor(private responseService:ResponseService) { }
@@ -25,28 +27,40 @@ export class SeeResponsesComponent implements OnInit {
   }
   
  
-  public createRecord(questionnaireResponses:QuestionnaireResponse[]):Record<string,QuestionnaireResponse[]>{
+  public groupBy(questionnaireResponses:QuestionnaireResponse[]):Record<string,QuestionnaireResponse[]>{
 
     let keys = new Set<string>();
+    let record:Record<string,QuestionnaireResponse[]>={}
 
     questionnaireResponses.forEach( qResposne =>{
-      //console.log(Object.entries(qResposne.decodedFilter).length);
-      //let counter =Object.entries(qResposne.decodedFilter).length;
-      //console.log(Object.entries(qResposne.decodedFilter)[counter -1]);
       
-      let xd =Object.entries(qResposne.decodedFilter).find(entry=>{
+      let key =Object.entries(qResposne.decodedFilter).find(entry=>{
         return entry.includes('YEAR');
       });
 
-      console.log(xd[1])
+      console.log(key[1])
       
-      keys.add(xd[1]);
+      keys.add(key[1]);
+      //record[key[1]].push(qResposne);
     })
 
-    console.log(keys);
+    keys.forEach(key=>{
+      let values:QuestionnaireResponse[]
+
+      values=questionnaireResponses.filter(qResponse =>{
+         return Object.entries(qResponse.decodedFilter).some(entry =>{
+          return entry.includes(key);
+        });
+        
+      });
+      console.log(values.length);
+      console.log(values);
+      record[key] = values;
+    });
+    console.log(record);
     
 
-    return null;
+    return record;
   }
 
 
@@ -54,10 +68,9 @@ export class SeeResponsesComponent implements OnInit {
     this.qResponsesState$ = this.responseService.questionnaireResponses$
     .pipe(
       map(response =>{
-        this.createRecord(response);
         return{
           dataState: DataState.LOADED,
-          appData: response
+          appData: this.groupBy(response)
         } 
       }),
       startWith({

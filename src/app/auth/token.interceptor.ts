@@ -27,13 +27,18 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        return this.handle401Error(request, next);
-      } 
-      if (error instanceof HttpErrorResponse && error.status === 403) {
-        this.handle403Error();
-        return throwError(error);
-      } else {
+      
+      if(this.router.url !== "/login"){
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          return this.handle401Error(request, next);
+        } 
+        if (error instanceof HttpErrorResponse && error.status === 403) {
+          this.handle403Error();
+          return throwError(error);
+        } else {
+          return throwError(error);
+        }
+      }else{
         return throwError(error);
       }
     }));

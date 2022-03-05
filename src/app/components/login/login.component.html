@@ -1,16 +1,33 @@
-<div class="header center">Log In</div>
-
-<form [formGroup]="loginForm" (ngSubmit)="login()">
 
 
-    <input  type="text" id="username" placeholder="Username" autocomplete="off" formControlName="username" required>
 
 
-    <input  type="password" id="password" placeholder="Password" formControlName="password" required>
-
-
-  <div class="actions">
-    <button  color="primary" type="submit" [disabled]="!loginForm.valid">LOG IN</button>
+<form [formGroup]="loginForm" (ngSubmit)="login()" class="border round" style="padding: 15px;"> 
+  <div class="form-row">
+    <h4>Login</h4>
   </div>
+  <div>
+    {{error}}
+  </div>
+  <div class="form-row" style="padding: 10px;">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" formControlName="username"  placeholder="Username" required>
+    </div>
+  </div>
+
+  <div class="form-row" style="padding: 10px;">
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" required>
+    </div>
+  </div>
+
+  <div class="form-row" style="padding: 10px;">
+    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Login</button>
+  </div>
+
+  
+
 
 </form>

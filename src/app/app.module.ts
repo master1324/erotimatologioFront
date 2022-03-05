@@ -21,6 +21,7 @@ import { QuestionnaireReactiveComponent } from './components/questionnaire-react
 import { AddQuestionnaireComponent } from './components/add-questionnaire/add-questionnaire.component';
 import { QuestionnaireResultComponent } from './components/questionnaire-result/questionnaire-result.component';
 import { QuestionnaireIdentifiersComponent } from './components/questionnaire-identifiers/questionnaire-identifiers.component';
+import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
 
 
 
@@ -38,7 +39,8 @@ import { QuestionnaireIdentifiersComponent } from './components/questionnaire-id
     QuestionnaireReactiveComponent,
     AddQuestionnaireComponent,
     QuestionnaireResultComponent,
-    QuestionnaireIdentifiersComponent
+    QuestionnaireIdentifiersComponent,
+    EmailConfirmComponent
   ],
   imports: [
     CommonModule,

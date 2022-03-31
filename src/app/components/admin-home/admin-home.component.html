@@ -1,0 +1,49 @@
+<!-- {{filtersState$|async|json}} -->
+
+<h4 *ifRoles='["ROLE_ADMIN"]'>Energopoimena Erotimatologia</h4>
+<h4 *ifRoles='["ROLE_TEACHER"]'>Energopoimena Erotimatologia Sxetika me Esas</h4>
+
+<div *ngIf="(filtersState$ | async) as filtersState" [ngSwitch]="filtersState.dataState">
+
+    <div *ngSwitchCase="DataState.LOADING">
+
+    </div>
+    <div *ngSwitchCase="DataState.LOADED">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Onoma Erotimatologiou</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Mathima</th>
+                    <th scope="col">Kathigitis</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Katastasi</th>
+                    <th scope="col">Perisotera</th>
+                  </tr>
+                </thead>
+                <tbody>
+        
+                  <tr *ngFor="let filter of filtersState.appData;let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{filter.questionnaireName}}</td>
+                    <td>{{filter.decodedFilter.DEPARTMENT}}</td>
+                    <td>{{filter.decodedFilter.SUBJECT}}</td>
+                    <td>{{filter.decodedFilter.TEACHER}}</td>
+                    <td>{{filter.decodedFilter.YEAR}}</td>
+                    <td>{{filter.enabled}}</td>
+                    <td><a href="{{'/qresult?id='+ filter.questionnaireId+'&filter='+filter.filter}}" id="xd" class="link">xd</a></td>
+                    
+                  </tr>
+                  
+                </tbody>
+              </table>
+          </div>
+    </div>
+    <div *ngSwitchCase="DataState.ERROR">
+
+    </div>
+</div>
+
+

@@ -1,8 +1,9 @@
-<div>
-    ERROR
+
+<div class="alert alert-danger" id="saved" role="alert" style="display: none;width: 400px;">
+    {{errorMessage}}
 </div>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="border round" style="padding: 15px;">
-
+    <h4>Signup</h4>
     <!-- USERNAME -->
     <div class="form-row" style="padding: 10px;">
         <div class="form-group">

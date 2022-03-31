@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -19,6 +19,14 @@ export class IdentifierService {
     tap(console.log),
     catchError(this.handleError)
   );
+
+  decodedFilter$ = (filter:string) => <Observable<Record<string,string>>>
+  
+  this.http.get<Record<string,string>>(config.apiUrl +'/filter/decode?filter='+filter)
+  .pipe(
+    tap(console.log),
+    catchError(this.handleError)
+  )
 
 
   private handleError(error: HttpErrorResponse): Observable<never> {

@@ -19,16 +19,16 @@
             >Home</a
           >
         </li>
-        <li *ngIf="(isAdmin$|async).appData" class="nav-item">
-          <a
+        <li *ngIf="isLoggedIn()" class="nav-item">
+          <a *ifRoles='["ROLE_ADMIN"]'
             class="nav-link active"
             aria-current="page"
             routerLink="/addq"
             >Add Questionnaire</a
           >
         </li>
-        <li *ngIf="(isUser$ |async).appData" class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/responses"
+        <li *ngIf="isLoggedIn()"  class="nav-item">
+          <a *ifRoles='["ROLE_USER"]' class="nav-link active" aria-current="page" routerLink="/responses"
             >See Responses</a
           >  
         </li>

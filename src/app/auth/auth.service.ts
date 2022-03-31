@@ -16,6 +16,7 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser!: string;
+ 
 
   constructor(private http: HttpClient) {}
 
@@ -60,11 +61,15 @@ export class AuthService {
   );
 
   roles$ = <Observable<string[]>>
-  this.http.get<boolean>( config.apiUrl +'/is_admin')
+  this.http.get<boolean>( config.apiUrl +'/roles')
   .pipe(
     tap(),
     catchError(this.handleError)
   );
+
+  public getRoles():Observable<string[]>{
+    return this.http.get<string[]>( config.apiUrl +'/roles');
+  }
 
   isLoggedIn() {
     return !!this.getJwtToken();

@@ -1,7 +1,9 @@
 
 
 
-
+<div class="alert alert-danger" id="saved" role="alert" style="display: none;width: 400px;">
+  {{errorMessage}}
+</div>
 <form [formGroup]="loginForm" (ngSubmit)="login()" class="border round" style="padding: 15px;"> 
   <div class="form-row">
     <h4>Login</h4>

@@ -33,6 +33,8 @@ export class TokenInterceptor implements HttpInterceptor {
           return this.handle401Error(request, next);
         } 
         if (error instanceof HttpErrorResponse && error.status === 403) {
+          console.log('errot chck');
+          
           this.handle403Error();
           return throwError(error);
         } else {
@@ -55,6 +57,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handle403Error(){
     let tokenHasExpired = this.tokenExpired(this.getRefreshToken());
+    console.log(tokenHasExpired);
+    
       if(tokenHasExpired){ //token has expired
         console.log('refresh token has expired logging out');   
         this.authService.logout()

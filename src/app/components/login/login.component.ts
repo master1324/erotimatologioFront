@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
     username: null,
     password: null,
   };
-
+  public errorMessage:string;
   public error:string;
 
   constructor(
@@ -48,8 +49,14 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {          
-          this.error = err.error.exception;
+          this.errorMessage = err.error.exception;
+          this.showErrorDiv();
         }
       );
+  }
+
+  public showErrorDiv(){
+    //document.getElementById("saved").style.display='block';
+    $("#saved").fadeIn().css("display","inline-block");
   }
 }

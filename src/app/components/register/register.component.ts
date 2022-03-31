@@ -8,6 +8,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import $ from 'jquery';
 import { RegisterService } from 'src/app/service/register.service';
 
 @Component({
@@ -17,10 +19,12 @@ import { RegisterService } from 'src/app/service/register.service';
 })
 export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
+  public errorMessage:string;
 
   constructor(
     private fb: FormBuilder,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -58,12 +62,23 @@ export class RegisterComponent implements OnInit {
         (response: any) => {
           console.log(response);
           //this.isLoading.next(false);
+          
+          this.router.navigate(['/login']);
+          
         },
         (error: HttpErrorResponse) => {
           console.log(error);
+          this.errorMessage = error.error;
+          this.showErrorDiv()
+          
           // this.isLoading.next(false);
         }
       );
+  }
+
+  public showErrorDiv(){
+    //document.getElementById("saved").style.display='block';
+    $("#saved").fadeIn().css("display","inline-block");
   }
 
   private checkPasswords: ValidatorFn = (

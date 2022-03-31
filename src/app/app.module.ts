@@ -22,6 +22,11 @@ import { AddQuestionnaireComponent } from './components/add-questionnaire/add-qu
 import { QuestionnaireResultComponent } from './components/questionnaire-result/questionnaire-result.component';
 import { QuestionnaireIdentifiersComponent } from './components/questionnaire-identifiers/questionnaire-identifiers.component';
 import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
+import { IfRolesDirective } from './objects/directives/if-roles.directive';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { AdminHomeComponent } from './components/admin-home/admin-home.component';
+import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component'
 
 
 
@@ -40,7 +45,10 @@ import { EmailConfirmComponent } from './components/email-confirm/email-confirm.
     AddQuestionnaireComponent,
     QuestionnaireResultComponent,
     QuestionnaireIdentifiersComponent,
-    EmailConfirmComponent
+    EmailConfirmComponent,
+    IfRolesDirective,
+    AdminHomeComponent,
+    QuestionnareStatsComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +57,9 @@ import { EmailConfirmComponent } from './components/email-confirm/email-confirm.
     RouterModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NoopAnimationsModule,
+    ClipboardModule
   ],
   providers: [
     AuthGuard,

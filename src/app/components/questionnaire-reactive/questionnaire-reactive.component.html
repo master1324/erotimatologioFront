@@ -44,12 +44,12 @@
                             <div *ngIf="group.eligibleResponses.length != 0" class="row">
                                 <div class="col-4 d-flex justify-content-xl-center align-items-xl-center"
                                     style="border:1px solid">
-                                    <h4 style="margin-top: 8px;">Erotiseis</h4>
+                                    <h5 style="margin-top: 8px;">Erotiseis</h5>
                                 </div>
                                 <div *ngFor="let eligibleResponse of group.eligibleResponses"
                                     class="col d-flex justify-content-md-center align-items-md-center"
                                     style="border:1px solid">
-                                    <h5 class="text-truncate">{{eligibleResponse}}</h5>
+                                    <h6 class="text-truncate">{{eligibleResponse}}</h6>
                                 </div>
                             </div>
                             <!--GRID BODY-->
@@ -60,7 +60,7 @@
                                     style="margin: 0px;padding: 0px;">
                                     <div class="col-4 d-flex justify-content-xl-center align-items-xl-center"
                                         style="border:1px solid">
-                                        <h5 style="margin-top: 8px;" class="text-break">{{question.question}}</h5>
+                                        <h6 style="margin-top: 8px;" class="text-break">{{question.question}}</h6>
                                     </div>
                                     <div *ngFor="let eligibleResponse of question.eligibleResponses;let i = index"
                                         class="col d-flex justify-content-md-center align-items-md-center"

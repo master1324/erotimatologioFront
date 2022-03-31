@@ -1,4 +1,4 @@
-<div *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState" class="container">
+<div *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState" class="container border-bottom" style="padding-bottom: 20px;">
 
     <div *ngSwitchCase="DataState.LOADING">
 
@@ -7,9 +7,12 @@
     <div  *ngSwitchCase="DataState.LOADED">
     
         <div >
-            <h1 class="text-center mb-4">ERROTIMATOLOGIA</h1>
             
-            <div class="row filtr-container">
+            <div class="d-flex border-bottom" style="margin-top: 15px;margin-bottom: 15px;">
+                <h4 *ifRoles='["ROLE_USER"]' class="text-center "> EROTIMATOLOGIA </h4>
+                <h4 *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'>Epilekste Erotimatologio Gia Energopoisi</h4>           
+            </div>
+            <!-- <div class="row filtr-container">
                 <div *ngFor="let questionnaire of appState.appData" class="col-md-6 col-lg-4"  style="padding: 25px;">
 
                     <div  class="card border-dark">
@@ -17,7 +20,7 @@
                             <h5 class="m-0">{{questionnaire.name}}</h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                            <p class="card-text">{{questionnaire.shortDescription}}</p>
                         </div>
                         <div *ngIf="(isUser$|async)" class="d-flex card-footer">
                             <a href="{{'/quest?id='+questionnaire.id}}" class="btn btn-primary stretched-link">Go somewhere</a>
@@ -27,12 +30,38 @@
                         </div>
                     </div>
 
+                </div> 
+            </div> -->
+
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                <div  *ngFor="let questionnaire of appState.appData">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{questionnaire.name}}</h5>
+
+                                
+                                    <div class="">
+                                        
+                                        <p>{{questionnaire.shortDescription}}</p>
+                                    </div>
+
+                                    
+                                    <div *ifRoles='["ROLE_USER"]' class="d-flex">
+                                        <a href="{{'/quest?id='+questionnaire.id}}" class=" stretched-link"></a>
+                                    </div>
+                                    <div *ifRoles='["ROLE_ADMIN"]' class="d-flex">
+                                        <a href="{{'/qresult?id='+questionnaire.id}}" class="stretched-link"></a>
+                                    </div>
+                                
+                                <!-- <a href="{{'/quest?id='+qResponse.questionnaireId+'&&filter='+qResponse.filter}}" class="stretched-link"></a> -->
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
-               
-                
-                
-               
             </div>
+
         </div>
 
     </div>
@@ -41,3 +70,4 @@
 
     </div>
 </div>
+<admin-home *ifRoles='["ROLE_ADMIN"]'></admin-home>

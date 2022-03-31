@@ -35,6 +35,7 @@ export class AddQuestionnaireComponent implements OnInit {
     this.questionnaireForm = this.fb.group({
 
       name:[null,Validators.required],
+      shortDescription:[null,Validators.required],
       identifiers:this.fb.array([]),
       questionnaire:this.fb.array([this.newQuestionGroup()])
       })

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -14,79 +14,9 @@ import { Role } from 'src/app/objects/model/role';
 })
 export class NavigationComponent implements OnInit {
 
-  isUser$:Observable<AppState<boolean>>;
-  isAdmin$:Observable<AppState<boolean>>;
-
-  constructor(private authService: AuthService,router:Router) {
-    router.events.subscribe((ev) => {
-      this.isUser$ = this.authService.isUser$
-    .pipe(
-      map(response =>{
-        return{
-          dataState: DataState.LOADED,
-          appData: response
-        }
-      }),
-      startWith({
-        dataState: DataState.LOADING
-      }),
-      catchError((error:string)=>{
-        return of({dataState:DataState.ERROR , error})
-      })
-    );
-
-    this.isAdmin$ = this.authService.isAdmin$
-    .pipe(
-      map(response =>{
-        return{
-          dataState: DataState.LOADED,
-          appData: response
-        }
-      }),
-      startWith({
-        dataState: DataState.LOADING
-      }),
-      catchError((error:string)=>{
-        return of({dataState:DataState.ERROR , error})
-      })
-    );
-    });
-  }
+  constructor(private authService: AuthService,router:Router,private appRef: ApplicationRef) {}
 
   ngOnInit(): void {
-
-    this.isUser$ = this.authService.isUser$
-    .pipe(
-      map(response =>{
-        return{
-          dataState: DataState.LOADED,
-          appData: response
-        }
-      }),
-      startWith({
-        dataState: DataState.LOADING
-      }),
-      catchError((error:string)=>{
-        return of({dataState:DataState.ERROR , error})
-      })
-    );
-
-    this.isAdmin$ = this.authService.isAdmin$
-    .pipe(
-      map(response =>{
-        return{
-          dataState: DataState.LOADED,
-          appData: response
-        }
-      }),
-      startWith({
-        dataState: DataState.LOADING
-      }),
-      catchError((error:string)=>{
-        return of({dataState:DataState.ERROR , error})
-      })
-    );
-
   }
 
   public isLoggedIn():boolean{
@@ -97,9 +27,6 @@ export class NavigationComponent implements OnInit {
     console.log('login out');
     this.authService.logout();
   }
-
-  
-  
-  
+ 
 
 }

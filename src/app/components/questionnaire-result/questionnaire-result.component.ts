@@ -17,6 +17,7 @@ export class QuestionnaireResultComponent implements OnInit {
   public qResultState$: Observable<AppState<Questionnaire>>;
   public resultIsPresent: boolean = false;
   private questionnaireId: number;
+  private filter:string;
   readonly DataState = DataState;
 
   constructor(
@@ -27,7 +28,12 @@ export class QuestionnaireResultComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.questionnaireId = params['id'];
-    });    
+      this.filter=params['filter'];
+    });
+    if(this.filter!= undefined){
+      this.initiateBody(this.questionnaireId,this.filter)
+      this.resultIsPresent = true;
+    }    
   }
 
   public getFilter(filter:string){
@@ -41,7 +47,7 @@ export class QuestionnaireResultComponent implements OnInit {
       .questionnaireResult$(id, filter)
       .pipe(
         map((response) => {
-          this.resultIsPresent = true;
+          this.resultIsPresent = true;       
           return {
             dataState: DataState.LOADED,
             appData: response,

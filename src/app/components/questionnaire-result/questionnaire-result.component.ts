@@ -17,7 +17,7 @@ export class QuestionnaireResultComponent implements OnInit {
   public qResultState$: Observable<AppState<Questionnaire>>;
   public resultIsPresent: boolean = false;
   private questionnaireId: number;
-  private filter:string;
+  public filter:string;
   readonly DataState = DataState;
 
   constructor(
@@ -39,6 +39,7 @@ export class QuestionnaireResultComponent implements OnInit {
   public getFilter(filter:string){
     console.log(filter+'apo parentntntntn');   
     this.initiateBody(this.questionnaireId,filter);
+    this.filter = filter;
     this.resultIsPresent = true;
   }
 

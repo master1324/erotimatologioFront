@@ -9,7 +9,7 @@
         <div >
             
             <div class="d-flex border-bottom" style="margin-top: 15px;margin-bottom: 15px;">
-                <h4 *ifRoles='["ROLE_USER"]' class="text-center "> EROTIMATOLOGIA </h4>
+                <h4 *ifRoles='["ROLE_USER"]' class="text-center "> Επιλέξτε ερωτηματολόγιο για να συμπληρώσετε </h4>
                 <h4 *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'>Epilekste Erotimatologio Gia Energopoisi</h4>           
             </div>
             <!-- <div class="row filtr-container">
@@ -71,3 +71,4 @@
     </div>
 </div>
 <admin-home *ifRoles='["ROLE_ADMIN"]'></admin-home>
+<app-see-responses *ifRoles='["ROLE_USER"]'> </app-see-responses>

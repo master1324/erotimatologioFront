@@ -27,9 +27,7 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
   public link:string;
   private currentYear: number=new Date().getFullYear();
   readonly DataState = DataState;
-  public days:number =0;
-  public hours:number =1;
-  public minutes:number =0;
+  public datetimelocal:string ;
   public enabled:boolean = true;
   private qName:string;
 
@@ -72,8 +70,24 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
     })
     this.filter =this.currentYear+","+values.join(",");
     console.log(this.filter);
-    this.createFilter();
-   
+    this.createFilter(); 
+  }
+
+  public setFilterUser(form:NgForm){
+    let values = Object.values(form.value);
+    values.sort((n1,n2) =>{
+      if (n1 > n2) {
+        return 1;
+    }
+
+    if (n1 < n2) {
+        return -1;
+    }
+    return 0;
+    })
+    this.filter =this.currentYear+","+values.join(",");
+    console.log(this.filter);
+    this.newFilterEvent.emit(this.filter);
   }
 
   public copyInputMessage(inputElement){
@@ -82,12 +96,12 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
   }
 
-  checkValue(event: any){
-    console.log(event);
-    if(this.filter!=undefined){
-      this.setEnabled(event);
-    }
- }
+//   checkValue(event: any){
+//     console.log(event);
+//     if(this.filter!=undefined){
+//       this.setEnabled(event);
+//     }
+//  }
 
   private initiateIdentifiers(id: number) {
     this.qIdentifierState$ = this.questionnaireService
@@ -123,13 +137,9 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
 
   private createFilter(){
 
-    //this.days*86400000 + this.hours*3600000 + this.minutes*60000;
-    var active = new Date().getTime() + this.days*86400000 + this.hours*3600000 + this.minutes*60000;
-    console.log('ora'+ active );
-
     this.filterService.addFilter(
       {
-        activeFor:new Date().getTime() + this.days*86400000 + this.hours*3600000 + this.minutes*60000,
+        activeFor:Date.parse(this.datetimelocal),
         questionnaireId:this.questionnaireId,
         filter:this.filter,
         enabled: this.enabled,

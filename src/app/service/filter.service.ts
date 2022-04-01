@@ -19,8 +19,19 @@ export class FilterService {
     catchError(this.handleError)
   );
 
+  filter$ =(filter:string,id:number) => <Observable<Filter>>
+  this.http.get<Filter>(config.apiUrl +'/filter?filter='+filter+'&id='+id)
+  .pipe(
+    tap(console.log),
+    catchError(this.handleError)
+  );
+
   public addFilter(filter:Filter):Observable<Filter>{
     return this.http.post<Filter>(config.apiUrl+'/filter/add',filter);
+  }
+
+  public updateFilter(filter:Filter):Observable<Filter>{
+    return this.http.put<Filter>(config.apiUrl+'/filter/update',filter);
   }
 
   public switchEnabled(filter:string,value:number){

@@ -4,7 +4,7 @@
 <div *ngIf=" resultIsPresent" class="row" >
 
 
-    <div class="col-9 results" *ngIf="(qResultState$|async) as qResultState"[ngSwitch]="qResultState.dataState">
+    <div class="col-8 results" *ngIf="(qResultState$|async) as qResultState"[ngSwitch]="qResultState.dataState">
 
         <div *ngSwitchCase="DataState.LOADING" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
@@ -88,7 +88,9 @@
 
     </div>
 
+    <!-- ASIDE COMPONTENT -->
     <div class="col border"  style="margin: 15px;padding: 15px;">
         <h4>Leptomeries</h4>
+        <questionnare-stats [parentFilter]="filter"></questionnare-stats>
     </div>
 </div>

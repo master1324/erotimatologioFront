@@ -1,3 +1,6 @@
+
+<div class="container">
+    <h4>Ερωτηματολόγια που έχετε συμπληρώσει</h4>
 <div *ngIf="(qResponsesState$ | async) as qResponsesState" [ngSwitch]="qResponsesState.dataState" class="container">
 
     <div *ngSwitchCase="DataState.LOADING" class="d-flex justify-content-center align-items-xl-center">
@@ -49,4 +52,5 @@
     <div *ngSwitchCase="DataState.ERROR">
 
     </div>
+</div>
 </div>

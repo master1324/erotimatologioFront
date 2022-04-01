@@ -33,7 +33,6 @@ export class TokenInterceptor implements HttpInterceptor {
           return this.handle401Error(request, next);
         } 
         if (error instanceof HttpErrorResponse && error.status === 403) {
-          console.log('errot chck');
           
           this.handle403Error();
           return throwError(error);
@@ -63,9 +62,10 @@ export class TokenInterceptor implements HttpInterceptor {
         console.log('refresh token has expired logging out');   
         this.authService.logout()
         this.router.navigate(['/login']);
-      }else{ //show forbiden 
-        this.router.navigate(['/home']);
       }
+      // }else{ //show forbiden 
+      //   this.router.navigate(['/home']);
+      // }
   }
 
   

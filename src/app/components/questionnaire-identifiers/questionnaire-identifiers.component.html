@@ -51,37 +51,35 @@
                                 style="margin-top: 15px;margin-bottom: 15px;padding-top: 15px;">
 
                                     <div class="row">
-                                        <div class="col">Energo</div>
-                                        <div class="col">Hmeres</div>
-                                        <div class="col">Ores</div>
-                                        <div class="col">Lepta</div>
+                                        <!-- <div class="col">Energo</div> -->
+                                        <div class="col">Energo Mexri</div>
+                                        
                                     </div>
                                     <div class="row">
 
-                                        <div class="col">
+                                        <!-- <div class="col">
                                             <label class="switch"><input (change)="checkValue(enabled?'1':'0')" type="checkbox" [(ngModel)]="enabled" [ngModelOptions]="{standalone: true}">
                                                 <span
                                                     class="slider round"></span></label>
-                                        </div>
+                                        </div> -->
 
                                         <div class="col">
-                                            <input type="number" class="form-control" placeholder="Hmeres" min="0"  [(ngModel)]="days" [ngModelOptions]="{standalone: true}">
+                                            <input type="datetime-local" class="form-control" placeholder="Hmeres" min="0"  [(ngModel)]="datetimelocal" [ngModelOptions]="{standalone: true}">
                                         </div>
-                                        <div class="col">
-                                            <input type="number" class="form-control" placeholder="Ores" min="0" [(ngModel)]="hours" [ngModelOptions]="{standalone: true}">
-                                        </div>
-                                        <div class="col">
-                                            <input type="number" class="form-control" placeholder="Lepta" min="0" [(ngModel)]="minutes" [ngModelOptions]="{standalone: true}">
-                                        </div>
-
                                     </div>
                             </div>
 
 
 
-                            <div style="margin-top: 10px;"
+                            <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 10px;"
                                 class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
                                 <input type="submit" value="Set Identifiers" class="btn btn-primary"
+                                    [disabled]="identifierForm.invalid">
+                            </div>
+
+                            <div *ifRoles='["ROLE_USER"]' style="margin-top: 10px;"
+                                class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
+                                <input (click)="setFilterUser(identifierForm)" type="button" value="Set Identifiers2" class="btn btn-primary"
                                     [disabled]="identifierForm.invalid">
                             </div>
 
@@ -110,6 +108,7 @@
     <!--ERROR-->
     <div *ngSwitchCase="DataState.ERROR">
         ERROR
+        
     </div>
 
 </div>

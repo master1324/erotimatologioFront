@@ -28,6 +28,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
   public filter:string;
   public bodyPresent:boolean = false;
   public hasSaved = false;
+  public error:string;
   readonly DataState = DataState;
   private questionnaireId:number;
   
@@ -64,11 +65,12 @@ export class QuestionnaireReactiveComponent implements OnInit {
     this.responseService.addResponses(this.responses).subscribe(
       (response:any)=>{
         console.log(response);
-        this.showSuccessDiv();
+        this.showSuccessDiv("Oi apantiseis sas apothilkeutikan me epitixeia");
         this.isLoading.next(false);
       },
       (error:HttpErrorResponse)=>{
         console.log(error);
+        this.showErrorDiv(error.error.message)
         this.isLoading.next(false);
       }
     );
@@ -81,10 +83,18 @@ export class QuestionnaireReactiveComponent implements OnInit {
     this.initiateBody(this.questionnaireId,filter);
   }
 
-  public showSuccessDiv(){
+  public showSuccessDiv(message:string){
     //document.getElementById("saved").style.display='block';
     $("#saved").fadeIn().css("display","inline-block");
+    document.getElementById("successMessage").innerHTML = message;
     $('#saved').delay(4000).fadeOut('slow');
+  }
+
+  public showErrorDiv(message:string){
+    //document.getElementById("saved").style.display='block';
+    $("#error").fadeIn().css("display","inline-block");
+    document.getElementById("errorMessage").innerHTML = message;
+    $('#error').delay(4000).fadeOut('slow');
   }
 
   
@@ -105,6 +115,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
       }),
       catchError((error:string)=>{
         console.log(error);
+        this.error = error;
         return of({dataState:DataState.ERROR , error})
       })
     );

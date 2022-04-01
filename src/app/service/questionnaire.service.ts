@@ -71,7 +71,7 @@ export class QuestionnaireService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);
-    return throwError('Error occured');
+    return throwError(error.error.message);
   }
 
   

@@ -1,5 +1,9 @@
 <div class="alert alert-success" id="saved" role="alert" style="display: none;">
-    Oi apantiseis apotheukeutin me epitixia.
+    <span id="successMessage"></span>
+</div>
+
+<div class="alert alert-danger" id="error" role="alert" style="display: none;">
+    <span id="errorMessage"></span>
 </div>
 
 <app-questionnaire-identifiers (newFilterEvent)="getFilter($event)"></app-questionnaire-identifiers>
@@ -7,7 +11,7 @@
 <!--PRE QUESTIONNAIRE-->
 <div *ngIf="!bodyPresent" class=" border rounded d-flex justify-content-center align-items-xl-center"
     style="height: 200px;">
-    <h3>Balte ta indentifiers gia na simplirosete to erotimatologio</h3>
+    <h3>Επιλέξτε τα αναγνωριστικά για να συμπληρώσετε το ερωτηματολόγιο</h3>
 </div>
 
 <!--AFTER QUESTIONNAIRE-->
@@ -103,8 +107,10 @@
         </form>
     </div>
     <!--ERROR-->
-    <div *ngSwitchCase="DataState.ERROR">
-        ERROR
+    <div *ngSwitchCase="DataState.ERROR">   
+        <div class="alert alert-info text-center" role="alert">
+            {{error}}
+        </div>
     </div>
 
 

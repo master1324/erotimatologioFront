@@ -1,12 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { QuestionnaireService } from 'src/app/service/questionnaire.service';
+import { ResponsesAddedService } from 'src/app/service/responses-added.service';
+import { QuestionnareStatsComponent } from '../questionnare-stats/questionnare-stats.component';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-questionnaire-result',
@@ -19,11 +22,17 @@ export class QuestionnaireResultComponent implements OnInit {
   private questionnaireId: number;
   public filter:string;
   readonly DataState = DataState;
+  private changeHappendSubscription:Subscription;
+
+  @ViewChild(QuestionnareStatsComponent) child;
 
   constructor(
     private questionnaireService: QuestionnaireService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+
+
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -34,6 +43,23 @@ export class QuestionnaireResultComponent implements OnInit {
       this.initiateBody(this.questionnaireId,this.filter)
       this.resultIsPresent = true;
     }    
+    
+  }
+
+  ngAfterViewInit() {
+    this.changeHappendSubscription=this.child.changeHappend$.subscribe(
+      (response) =>{
+        if(response){
+          this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+        }
+      }
+    )
+  }
+
+  showChangeHappendDiv(message:string){
+    $("#change").fadeIn().css("display","inline-block");
+    document.getElementById("successMessage").innerHTML = message;
+    $('#change').delay(4000).fadeOut('slow');
   }
 
   public getFilter(filter:string){
@@ -63,5 +89,9 @@ export class QuestionnaireResultComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+  }
+
+  ngOnDestroy(): void{
+    this.changeHappendSubscription.unsubscribe();
   }
 }

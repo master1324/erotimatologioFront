@@ -2,8 +2,8 @@ import { DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, map, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subscription, timer } from 'rxjs';
+import { catchError, map, mergeMap, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Filter } from 'src/app/objects/interface/filter';
@@ -16,12 +16,20 @@ import { FilterService } from 'src/app/service/filter.service';
 })
 export class QuestionnareStatsComponent implements OnInit {
   public filterState$: Observable<AppState<Filter>>;
+  
+  private changeHappend = new BehaviorSubject<boolean>(false);
+  public changeHappend$ = this.changeHappend.asObservable();
+
   public questionnaireId: number;
   public filter: string;
   public date: string;
   public enabled: boolean;
   readonly DataState = DataState;
   private filterObject:Filter;
+  public reloadInterval = 5000;
+  private statsSubscription: Subscription;
+  private newFilterSubscription : Subscription;
+  public responseDiference:number;
   @Input() parentFilter: string;
 
   constructor(
@@ -39,6 +47,12 @@ export class QuestionnareStatsComponent implements OnInit {
       this.filter = this.parentFilter;
     }
     this.getStats();
+    
+    
+  this.statsSubscription=timer(0, this.reloadInterval).pipe(
+  mergeMap(async (_) => this.getStats())
+  ).subscribe()
+
   }
 
   checkValue(event: any) {
@@ -65,20 +79,23 @@ export class QuestionnareStatsComponent implements OnInit {
       }
     );
   }
-
-  // public getFilter(filter: string) {
-  //   console.log(filter + 'apo ASIDE');
-  //   this.filter = filter;
-  // }
-
   private getStats() {
-    this.filterState$ = this.filterService
+    
+    if(this.filterObject ==  undefined){
+      this.filterState$ = this.filterService
       .filter$(this.filter, this.questionnaireId)
       .pipe(
         map((response) => {
+          console.log('trexo 111');
+          
           this.enabled = response.enabled;
           this.date = formatDate(response.activeFor,'yyyy-MM-ddTHH:mm',this.locale)
           this.filterObject = response;
+
+          if(response.numOfResponses != this.filterObject.numOfResponses){
+            
+          }
+
           return {
             dataState: DataState.LOADED,
             appData: response,
@@ -92,5 +109,47 @@ export class QuestionnareStatsComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+    }else{
+
+      let filter$ = this.filterService
+      .filter$(this.filter, this.questionnaireId)
+      .pipe(
+        map((response) => {
+          console.log('trexo 2 222');
+          
+          this.enabled = response.enabled;
+          this.date = formatDate(response.activeFor,'yyyy-MM-ddTHH:mm',this.locale)
+          
+          console.log(response.numOfResponses + "XXXXX " + this.filterObject.numOfResponses);
+          if(response.numOfResponses != this.filterObject.numOfResponses){
+            this.responseDiference = response.numOfResponses - this.filterObject.numOfResponses;
+            this.changeHappend.next(true);
+            this.filterState$ = filter$;
+            
+          }
+          this.filterObject = response;
+
+          return {
+            dataState: DataState.LOADED,
+            appData: response,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADING,
+        }),
+        catchError((error: string) => {
+          console.log(error);
+          return of({ dataState: DataState.ERROR, error });
+        })
+      );
+
+      this.newFilterSubscription= filter$.subscribe();
+    }
   }
+
+  ngOnDestroy(): void{
+    this.statsSubscription.unsubscribe();
+    this.newFilterSubscription.unsubscribe();
+  }
+  
 }

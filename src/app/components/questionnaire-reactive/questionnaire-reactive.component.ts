@@ -11,6 +11,8 @@ import { Response } from 'src/app/objects/interface/response';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import $ from 'jquery';
+import { OnResponseAdded } from 'src/app/objects/interface/on-response-added';
+import { ResponsesAddedService } from 'src/app/service/responses-added.service';
 
 
 
@@ -43,6 +45,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
     private questionnaireService: QuestionnaireService,
     private responseService:ResponseService,
     private route:ActivatedRoute,
+    private responseAddedService:ResponsesAddedService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +56,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
     });
     console.log(this.filter);
     if(this.filter!= undefined){
-      this.initiateBody(this.questionnaireId,this.filter)
+      this.initiateBody(this.questionnaireId,this.filter);
       this.bodyPresent =true;
     }
 
@@ -64,7 +67,6 @@ export class QuestionnaireReactiveComponent implements OnInit {
     this.isLoading.next(true);
     this.responseService.addResponses(this.responses).subscribe(
       (response:any)=>{
-        console.log(response);
         this.showSuccessDiv("Oi apantiseis sas apothilkeutikan me epitixeia");
         this.isLoading.next(false);
       },

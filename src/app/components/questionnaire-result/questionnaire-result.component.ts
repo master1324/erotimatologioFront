@@ -23,6 +23,7 @@ export class QuestionnaireResultComponent implements OnInit {
   public filter:string;
   readonly DataState = DataState;
   private changeHappendSubscription:Subscription;
+  private isFirstTime:boolean =true;
 
   @ViewChild(QuestionnareStatsComponent) child;
 
@@ -47,13 +48,17 @@ export class QuestionnaireResultComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.changeHappendSubscription=this.child.changeHappend$.subscribe(
-      (response) =>{
-        if(response){
-          this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+
+    if(this.resultIsPresent){
+      this.changeHappendSubscription=this.child.changeHappend$.subscribe(
+        (response) =>{
+          if(response){
+            this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+            this.initiateBody(this.questionnaireId,this.filter)
+          }
         }
-      }
-    )
+      )
+    }  
   }
 
   showChangeHappendDiv(message:string){
@@ -67,6 +72,23 @@ export class QuestionnaireResultComponent implements OnInit {
     this.initiateBody(this.questionnaireId,filter);
     this.filter = filter;
     this.resultIsPresent = true;
+
+    //alagi gia na doulebi kai sta dio states
+    if(this.qResultState$ == undefined){
+      this.changeHappendSubscription=this.child.changeHappend$.subscribe(
+        (response) =>{
+          if(response){
+            this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+            if(!this.isFirstTime){
+              this.initiateBody(this.questionnaireId,this.filter)
+              this.isFirstTime =false;
+            }
+          }
+        }
+      )
+    }
+    
+
   }
 
   private initiateBody(id: number, filter: string) {
@@ -92,6 +114,8 @@ export class QuestionnaireResultComponent implements OnInit {
   }
 
   ngOnDestroy(): void{
-    this.changeHappendSubscription.unsubscribe();
+    if(this.changeHappendSubscription != undefined){
+      this.changeHappendSubscription.unsubscribe();
+    }  
   }
 }

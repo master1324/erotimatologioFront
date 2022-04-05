@@ -1,7 +1,9 @@
 <div *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState" class="container border-bottom" style="padding-bottom: 20px;">
 
     <div *ngSwitchCase="DataState.LOADING">
-
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
     </div>
 
     <div  *ngSwitchCase="DataState.LOADED">

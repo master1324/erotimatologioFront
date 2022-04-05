@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { stringify } from 'querystring';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscriber } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { IdentifierType } from 'src/app/objects/enum/identifier-type.enum';
@@ -18,7 +18,10 @@ import { ResponseService } from 'src/app/service/response.service';
 export class SeeResponsesComponent implements OnInit {
 
   public qResponsesState$: Observable<AppState<Record<string,QuestionnaireResponse[]>>>;
+  private response:QuestionnaireResponse[];
   readonly DataState = DataState;
+  readonly IdentifierType = IdentifierType;
+  public group:string;
 
   constructor(private responseService:ResponseService) { }
 
@@ -26,8 +29,33 @@ export class SeeResponsesComponent implements OnInit {
     this.initiateObservable();
   }
   
+  groupByValue(value){
+    //this.groupBy(this.response,value);
+    let obs = new Observable<QuestionnaireResponse[]>(
+      subscriber =>{
+        subscriber.next(
+          this.response
+        )
+      })
+
+    this.qResponsesState$ = obs.pipe(
+      map(response =>{
+        return{
+          dataState: DataState.LOADED,
+          appData: this.groupBy(response,value)
+        } 
+      }),
+      startWith({
+        dataState: DataState.LOADING
+      }),
+      catchError((error:string)=>{
+        console.log(error);
+        return of({dataState:DataState.ERROR , error})
+      })
+    )
+  }
  
-  public groupBy(questionnaireResponses:QuestionnaireResponse[]):Record<string,QuestionnaireResponse[]>{
+  public groupBy(questionnaireResponses:QuestionnaireResponse[],value):Record<string,QuestionnaireResponse[]>{
 
     let keys = new Set<string>();
     let record:Record<string,QuestionnaireResponse[]>={}
@@ -35,7 +63,7 @@ export class SeeResponsesComponent implements OnInit {
     questionnaireResponses.forEach( qResposne =>{
       
       let key =Object.entries(qResposne.decodedFilter).find(entry=>{
-        return entry.includes('YEAR');
+        return entry.includes(value);
       });
 
       console.log(key[1])
@@ -68,9 +96,10 @@ export class SeeResponsesComponent implements OnInit {
     this.qResponsesState$ = this.responseService.questionnaireResponses$
     .pipe(
       map(response =>{
+        this.response = response;
         return{
           dataState: DataState.LOADED,
-          appData: this.groupBy(response)
+          appData: this.groupBy(response,'YEAR')
         } 
       }),
       startWith({

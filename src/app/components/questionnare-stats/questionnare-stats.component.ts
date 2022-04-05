@@ -149,7 +149,7 @@ export class QuestionnareStatsComponent implements OnInit {
 
   ngOnDestroy(): void{
     this.statsSubscription.unsubscribe();
-    this.newFilterSubscription.unsubscribe();
+    //this.newFilterSubscription.unsubscribe();
   }
   
 }

@@ -60,13 +60,13 @@
                             <div *ngFor="let question of group.questions;let j = index" #counter="appCounter" appCounter
                                 class="row">
 
-                                <div *ngIf="question.eligibleResponses.length != 0" class="form-group d-flex"
+                                <div *ngIf="group.eligibleResponses.length != 0" class="form-group d-flex"
                                     style="margin: 0px;padding: 0px;">
                                     <div class="col-4 d-flex justify-content-xl-center align-items-xl-center"
                                         style="border:1px solid">
                                         <h6 style="margin-top: 8px;" class="text-break">{{question.question}}</h6>
                                     </div>
-                                    <div *ngFor="let eligibleResponse of question.eligibleResponses;let i = index"
+                                    <div *ngFor="let eligibleResponse of group.eligibleResponses;let i = index"
                                         class="col d-flex justify-content-md-center align-items-md-center"
                                         style="border:1px solid">
                                         <input [(ngModel)]="responses[counter.index-1].response"
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                                 <!--AN I EROTISI EINAI TEXT  [(ngModel)]="responses[counter.index].response" -->
-                                <div *ngIf="question.eligibleResponses.length == 0" class="form-group"
+                                <div *ngIf="group.eligibleResponses.length == 0" class="form-group"
                                     style="background-color: #ffffff;">
                                     <h5>{{question.question}}</h5>
                                     <textarea [(ngModel)]="responses[counter.index -1].response"

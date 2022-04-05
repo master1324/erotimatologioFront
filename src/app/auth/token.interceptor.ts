@@ -19,16 +19,23 @@ export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
-
+  private urlsToSkip=["/login"]
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     
+
+    if(this.urlsToSkip.includes(this.router.url)){
+      console.log("INTERCEPTOR SKIP");
+      return next.handle(request);
+    }
+
     if (this.authService.getJwtToken()) {
-      request = this.addToken(request, this.authService.getJwtToken());
+                 
+        request = this.addToken(request, this.authService.getJwtToken());
     }
 
     return next.handle(request).pipe(catchError(error => {
       
-      if(this.router.url !== "/login"){
+      
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         } 
@@ -39,9 +46,7 @@ export class TokenInterceptor implements HttpInterceptor {
         } else {
           return throwError(error);
         }
-      }else{
-        return throwError(error);
-      }
+      
     }));
 
   }
@@ -67,8 +72,6 @@ export class TokenInterceptor implements HttpInterceptor {
       //   this.router.navigate(['/home']);
       // }
   }
-
-  
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {

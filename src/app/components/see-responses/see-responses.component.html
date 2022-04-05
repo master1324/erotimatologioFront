@@ -1,6 +1,16 @@
 
-<div class="container">
-    <h4>Ερωτηματολόγια που έχετε συμπληρώσει</h4>
+<div class="container" style="margin-top: 15px;">
+    <div class="d-flex justify-content-between">
+        <h4>Ερωτηματολόγια που έχετε συμπληρώσει</h4>
+        <div class="d-flex">
+            <select #selectGroupBy (change)="groupByValue(selectGroupBy.value)"  class="form-select" aria-label="Default select example">
+                <option selected disabled>Ομαδοποίηση κατά</option>
+                <option *ngFor="let option of IdentifierType | keyvalue" value="{{option.key}}">{{option.key}}</option>
+    
+            </select>
+        </div>
+    </div>
+    
 <div *ngIf="(qResponsesState$ | async) as qResponsesState" [ngSwitch]="qResponsesState.dataState" class="container">
 
     <div *ngSwitchCase="DataState.LOADING" class="d-flex justify-content-center align-items-xl-center">

@@ -26,7 +26,8 @@ import { IfRolesDirective } from './objects/directives/if-roles.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
-import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component'
+import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component';
+import { UserManagmentComponent } from './components/user-managment/user-managment.component'
 
 
 
@@ -48,7 +49,8 @@ import { QuestionnareStatsComponent } from './components/questionnare-stats/ques
     EmailConfirmComponent,
     IfRolesDirective,
     AdminHomeComponent,
-    QuestionnareStatsComponent
+    QuestionnareStatsComponent,
+    UserManagmentComponent
   ],
   imports: [
     CommonModule,

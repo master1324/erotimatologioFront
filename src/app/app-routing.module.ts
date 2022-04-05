@@ -13,6 +13,7 @@ import { QuestionnaireResultComponent } from './components/questionnaire-result/
 import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SeeResponsesComponent } from './components/see-responses/see-responses.component';
+import { UserManagmentComponent } from './components/user-managment/user-managment.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path:'quest',component:QuestionnaireReactiveComponent,canActivate:[AuthenticatedGuard,UserGuard]},
   {path:'responses',component:SeeResponsesComponent,canActivate:[AuthenticatedGuard,UserGuard]},
   {path:'addq',component:AddQuestionnaireComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
-  {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,AdminGuard]}
+  {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
+  {path:'users',component:UserManagmentComponent,canActivate:[AuthenticatedGuard,AdminGuard]}
 ];
 
 @NgModule({

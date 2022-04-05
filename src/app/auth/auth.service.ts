@@ -89,8 +89,10 @@ export class AuthService {
 
   private doLoginUser(username: string, tokens: Tokens) {
   
-    this.loggedUser = username;
-    this.storeTokens(tokens);
+    
+      this.loggedUser = username;
+      this.storeTokens(tokens);
+    
   }
 
   private doLogoutUser() {
@@ -107,6 +109,8 @@ export class AuthService {
   }
 
   private storeTokens(tokens: Tokens) {
+    console.log("EPP");
+    
     localStorage.setItem(this.JWT_TOKEN, tokens.access_token);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refresh_token);
   }
@@ -118,7 +122,7 @@ export class AuthService {
 
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    //console.log(error);
+    console.log(error);
     //console.log(error.error);
     return throwError('Error occured');
   }

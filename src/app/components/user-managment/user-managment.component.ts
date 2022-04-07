@@ -25,17 +25,23 @@ export class UserManagmentComponent implements OnInit {
   public teachersState$: Observable<AppState<AppResponse>>;
   public teacherState$: Observable<AppState<AppResponse>>;
   public addTeacherForm: FormGroup;
+  public updateTeacherForm: FormGroup;
   public selectedSubject: string;
   public selectedDepartment: string;
+  public selectedSubject2: string;
+  public selectedDepartment2: string;
+
 
   public subjectsArray: Identifier[] = [];
   public departmentsArray: Identifier[] = [];
   public identifiersSet: boolean = false;
   private identifiers: Identifier[] = [];
+  private teacher:Teacher;
 
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
   
+  private currentAppResponse:AppResponse;
   readonly DataState = DataState;
 
   constructor(
@@ -54,6 +60,12 @@ export class UserManagmentComponent implements OnInit {
       name: [null, Validators.required],
       username: [null, Validators.required],
       email: [null, Validators.required],
+      subjects: this.fb.array([]),
+      departments: this.fb.array([]),
+    });
+
+    this.updateTeacherForm = this.fb.group({
+      name: [null, Validators.required],
       subjects: this.fb.array([]),
       departments: this.fb.array([]),
     });
@@ -76,6 +88,7 @@ export class UserManagmentComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isLoading.next(false);
+          this.setTeachers();
         },
         (error) => {
           this.isLoading.next(false);
@@ -84,7 +97,50 @@ export class UserManagmentComponent implements OnInit {
   }
 
   onUpdateTeacherSubmit(){
+    this.isLoading.next(true);
+    let listofindex = this.updateTeacherForm.value.subjects;
+    let listofindex2 = this.updateTeacherForm.value.departments;
+    this.updateTeacherForm.value.subjects = this.subjectsArray.filter((a, b) =>
+      listofindex.some((j) => b === j)
+    );
+    this.updateTeacherForm.value.departments = this.departmentsArray.filter(
+      (a, b) => listofindex2.some((j) => b === j)
+    );
 
+    console.log(this.updateTeacherForm.value);
+
+    this.teacher.name = this.updateTeacherForm.value.name;
+    this.teacher.subjects = this.updateTeacherForm.value.subjects;
+    this.teacher.departments = this.updateTeacherForm.value.departments;
+
+    this.genericService.$update(this.teacher,'/teacher/update/'+this.teacher.id)
+    .subscribe(
+      (response) => {
+        this.isLoading.next(false);
+        this.setTeachers();
+      },
+      (error) => {
+        this.isLoading.next(false);
+      }
+    );
+    
+  }
+
+  deleteTeacher(id:number){
+    if(confirm("Are you sure to delete ")) {
+     this.genericService.$delete('/teacher/delete/'+id).subscribe(
+      (response) => {
+        this.setTeachers();
+      },
+      (error) => {
+        
+      }
+     )
+    }
+  }
+
+  filterServers(filter:string){
+    //this.teachersState$ = this.genericService.$filter(filter,)
   }
 
   public loadTeacher(id:number){
@@ -111,7 +167,7 @@ export class UserManagmentComponent implements OnInit {
 
   public addDepartments() {
     let exists = this.departments().controls.find((control) => {
-      return control.value == this.selectedSubject;
+      return control.value == this.selectedDepartment;
     });
 
     if (
@@ -138,7 +194,7 @@ export class UserManagmentComponent implements OnInit {
     let index = this.departments().controls.findIndex((control) => {
       return control.value == departmentIndex;
     });
-    this.subjects().removeAt(index);
+    this.departments().removeAt(index);
   }
 
   onSelectSubjectChange($event) {
@@ -159,9 +215,92 @@ export class UserManagmentComponent implements OnInit {
     return this.addTeacherForm.get('departments') as FormArray;
   }
 
+
+  //UPDATE
+
+  public addSubects2() {
+    let exists = this.subjects2().controls.find((control) => {
+      return control.value == this.selectedSubject2;
+    });
+    console.log(exists);
+    console.log(this.selectedSubject2);
+    if (
+      exists == undefined &&
+      this.selectedSubject2 != undefined &&
+      this.selectedSubject2 != '-1'
+    ) {
+      this.subjects2().push(new FormControl(parseInt(this.selectedSubject2)));
+    } else {
+      console.log('Subject Uparxei eidi');
+    }
+  }
+
+  public addDepartments2() {
+    let exists = this.departments2().controls.find((control) => {
+      return control.value == this.selectedDepartment2;
+    });
+    console.log(exists);
+    
+    if (
+      exists == undefined &&
+      this.selectedDepartment2 != undefined &&
+      this.selectedDepartment2 != '-1'
+    ) {
+      this.departments2().push(
+        new FormControl(parseInt(this.selectedDepartment2))
+      );
+    } else {
+      console.log('Department Uparxei eidi');
+    }
+  }
+
+  public removeSubject2(subjectIndex: number) {
+    let index = this.subjects2().controls.findIndex((control) => {
+      return control.value == subjectIndex;
+    });
+    this.subjects2().removeAt(index);
+    console.log(this.subjects2().value);
+    
+  }
+
+  public removeDepartment2(departmentIndex: number) {
+    let index = this.departments2().controls.findIndex((control) => {
+      return control.value == departmentIndex;
+    });
+    this.departments2().removeAt(index);
+    
+    console.log(this.departments2().value);
+    
+  }
+
+  onSelectSubjectChange2($event) {
+    this.selectedSubject2 = (<HTMLInputElement>$event.target).value;
+  }
+
+  onSelectDepartmentChange2($event) {
+    this.selectedDepartment2 = (<HTMLInputElement>$event.target).value;
+    console.log(this.selectedDepartment2+"AAAAAAAAAAAAAAAAAAA");
+  }
+
+  subjects2(): FormArray {
+    return this.updateTeacherForm.get('subjects') as FormArray;
+  }
+
+  departments2(): FormArray {
+    return this.updateTeacherForm.get('departments') as FormArray;
+  }
+
   private getTeacher(id: number) {
-    this.teacherState$ = this.genericService.$one(id, '/teacher/').pipe(
+    this.teacherState$ = this.genericService.$one(id, '/teacher/','').pipe(
       map((response) => {
+        
+        this.teacher = response.data.teacher;
+        this.updateTeacherForm.patchValue({name:this.teacher.name,subjects:this.teacher.subjects,departments:this.teacher.departments});
+        this.populateForm();
+        this.populateForm2();
+        //this.updateTeacherForm.setValue({name:this.teacher.name,subjects:this.teacher.subjects,departments:this.teacher.departments});
+   
+        
         return {
           dataState: DataState.LOADED,
           appData: response,
@@ -177,9 +316,28 @@ export class UserManagmentComponent implements OnInit {
     );
   }
 
+  private populateForm(){
+    this.subjects2().clear();
+    this.teacher.subjects.forEach(subject =>{
+
+      //console.log(this.subjectsArray.findIndex(s=> s.id == subject.id)+"XDDDD"); 
+      this.subjects2().push(new FormControl(this.subjectsArray.findIndex(s=> s.id == subject.id)));
+      //this.updateTeacherForm.controls.subjects = this.subjects2();
+      console.log(this.subjects2().value);
+    });
+  }
+
+  private populateForm2(){
+    this.departments2().clear();
+    this.teacher.departments.forEach(department =>{
+      this.departments2().push(new FormControl(this.departmentsArray.findIndex(d=>d.id==department.id)));
+    });
+  }
+
   private setTeachers() {
     this.teachersState$ = this.genericService.$all('/teacher/all').pipe(
       map((response) => {
+        this.currentAppResponse =response;
         return {
           dataState: DataState.LOADED,
           appData: response,

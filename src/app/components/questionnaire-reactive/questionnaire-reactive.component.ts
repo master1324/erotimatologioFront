@@ -5,14 +5,13 @@ import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
-import { QuestionnaireService } from 'src/app/service/questionnaire.service';
-import { ResponseService } from 'src/app/service/response.service';
+
 import { Response } from 'src/app/objects/interface/response';
-import { NgForm } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
+
 import $ from 'jquery';
-import { OnResponseAdded } from 'src/app/objects/interface/on-response-added';
-import { ResponsesAddedService } from 'src/app/service/responses-added.service';
+
+import { GenericService } from 'src/app/service/generic.service';
+import { AppResponse } from 'src/app/objects/interface/app-response';
 
 
 
@@ -23,7 +22,7 @@ import { ResponsesAddedService } from 'src/app/service/responses-added.service';
 })
 export class QuestionnaireReactiveComponent implements OnInit {
 
-  public qBodyState$: Observable<AppState<Questionnaire>>;
+  public qBodyState$: Observable<AppState<AppResponse>>;
 
   //public questionnaire:Questionnaire;
   public responses:Response[]=[];
@@ -42,10 +41,8 @@ export class QuestionnaireReactiveComponent implements OnInit {
 
 
   constructor(
-    private questionnaireService: QuestionnaireService,
-    private responseService:ResponseService,
-    private route:ActivatedRoute,
-    private responseAddedService:ResponsesAddedService
+    private genericService:GenericService,
+    private route:ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -65,17 +62,18 @@ export class QuestionnaireReactiveComponent implements OnInit {
   public save(){  
     console.log(this.responses); 
     this.isLoading.next(true);
-    this.responseService.addResponses(this.responses).subscribe(
+
+    this.genericService.$save(this.responses,'/v2/response/addAll')
+    .subscribe(
       (response:any)=>{
         this.showSuccessDiv("Oi apantiseis sas apothilkeutikan me epitixeia");
         this.isLoading.next(false);
       },
-      (error:HttpErrorResponse)=>{
-        console.log(error);
-        this.showErrorDiv(error.error.message)
+      (error)=>{
+        this.showErrorDiv(error)
         this.isLoading.next(false);
       }
-    );
+    )
   }
 
   getFilter(filter:string){
@@ -102,10 +100,10 @@ export class QuestionnaireReactiveComponent implements OnInit {
   
 
   private initiateBody(id:number,filter:string){
-    this.qBodyState$ = this.questionnaireService.questionnaireBody$(id,filter)
+    this.qBodyState$ = this.genericService.$one(id,'/v2/quest/','?filter='+filter)
     .pipe(
       map(response =>{
-        this.responses =this.setResponses(response);
+        this.responses =this.setResponses(response.data.questionnaire);
         this.bodyPresent = true;
         return{
           dataState: DataState.LOADED,

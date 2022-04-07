@@ -27,7 +27,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component';
-import { UserManagmentComponent } from './components/user-managment/user-managment.component'
+import { UserManagmentComponent } from './components/user-managment/user-managment.component';
+import { ManageProfileComponent } from './components/manage-profile/manage-profile.component'
 
 
 
@@ -50,7 +51,8 @@ import { UserManagmentComponent } from './components/user-managment/user-managme
     IfRolesDirective,
     AdminHomeComponent,
     QuestionnareStatsComponent,
-    UserManagmentComponent
+    UserManagmentComponent,
+    ManageProfileComponent
   ],
   imports: [
     CommonModule,

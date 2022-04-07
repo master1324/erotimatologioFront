@@ -18,8 +18,8 @@ export class GenericService {
     catchError(this.handleError)
   );
 
-  $one =(id:number,url:string) => <Observable<AppResponse>>
-  this.http.get<AppResponse>(config.apiUrl+url+id).pipe(
+  $one =(id:number,url:string,params:string) => <Observable<AppResponse>>
+  this.http.get<AppResponse>(config.apiUrl+url+id+params).pipe(
     tap(console.log),
     catchError(this.handleError)
   );
@@ -38,6 +38,27 @@ export class GenericService {
 
   $delete = (url:string)=><Observable<AppResponse>>
   this.http.delete<any>(config.apiUrl+url).pipe(
+    tap(console.log),
+    catchError(this.handleError)
+  );
+
+  $filter = (filter:string,response:AppResponse,parameter:string,searchParameter:string)=><Observable<AppResponse>>
+  new Observable<AppResponse>(
+    subscriber =>{
+      console.log(response);
+      subscriber.next(
+        filter === '' ?{ ...response,message:'filtered'} :
+        {
+          ...response,
+          message: response.data[parameter].filter(filterParameter => filterParameter[searchParameter] === filter).length > 0? 'Filtered by filter ${filter}':'Nothing Found',
+          data:{      
+            parameter: response.data[parameter].filter(filterParameter => filterParameter[searchParameter] === filter)
+          }
+        }
+      );
+      subscriber.complete();
+    }
+    ).pipe(
     tap(console.log),
     catchError(this.handleError)
   );

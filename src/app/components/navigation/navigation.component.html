@@ -27,6 +27,14 @@
             >Add Questionnaire</a
           >
         </li>
+        <li *ngIf="isLoggedIn()" class="nav-item">
+          <a *ifRoles='["ROLE_ADMIN"]'
+            class="nav-link active"
+            aria-current="page"
+            routerLink="/users"
+            >Manage Teachers</a
+          >
+        </li>
         <li *ngIf="isLoggedIn()"  class="nav-item">
           <a *ifRoles='["ROLE_USER"]' class="nav-link active" aria-current="page" routerLink="/responses"
             >See Responses</a
@@ -34,6 +42,11 @@
         </li>
       </ul>
       <ul class="navbar-nav mb-2 mb-lg-0">
+        <li *ngIf="isLoggedIn()" class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/profile"
+            >Profile</a
+          >
+        </li>
         <li *ngIf="!isLoggedIn()" class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/login"
             >Login</a

@@ -30,7 +30,7 @@
         <form #qForm="ngForm" (ngSubmit)="save()" [appCounter]="0">
             <div class="accordion" id="accordionPanelsStayOpenExample">
 
-                <div *ngFor="let group of qBodyState.appData.questionnaire;let k = index" class="accordion-item">
+                <div *ngFor="let group of qBodyState.appData.data.questionnaire.questionnaire;let k = index" class="accordion-item">
                     <!--ACOORDEON HEAD-->
                     <h4 class="accordion-header" id="{{'panelsStayOpen-heading'+k}}">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"

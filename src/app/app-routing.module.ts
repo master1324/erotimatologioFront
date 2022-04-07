@@ -8,6 +8,7 @@ import { AddQuestionnaireComponent } from './components/add-questionnaire/add-qu
 import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { ManageProfileComponent } from './components/manage-profile/manage-profile.component';
 import { QuestionnaireReactiveComponent } from './components/questionnaire-reactive/questionnaire-reactive.component';
 import { QuestionnaireResultComponent } from './components/questionnaire-result/questionnaire-result.component';
 import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path:'responses',component:SeeResponsesComponent,canActivate:[AuthenticatedGuard,UserGuard]},
   {path:'addq',component:AddQuestionnaireComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
   {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
-  {path:'users',component:UserManagmentComponent,canActivate:[AuthenticatedGuard,AdminGuard]}
+  {path:'users',component:UserManagmentComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
+  {path:'profile',component:ManageProfileComponent,canActivate:[AuthenticatedGuard]}
 ];
 
 @NgModule({

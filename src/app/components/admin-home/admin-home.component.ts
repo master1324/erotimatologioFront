@@ -5,6 +5,7 @@ import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Filter } from 'src/app/objects/interface/filter';
 import { FilterService } from 'src/app/service/filter.service';
+import { GenericService } from 'src/app/service/generic.service';
 
 @Component({
   selector: 'admin-home',
@@ -16,7 +17,10 @@ export class AdminHomeComponent implements OnInit {
   filtersState$: Observable<AppState<Filter[]>>;
   readonly DataState = DataState;
 
-  constructor(private filterService:FilterService) { 
+  constructor(
+    private filterService:FilterService,
+    private genericService:GenericService
+    ) { 
 
   }
 
@@ -26,12 +30,12 @@ export class AdminHomeComponent implements OnInit {
 
   private getFilters(){
 
-    this.filtersState$ = this.filterService.filters$
+    this.filtersState$ = this.genericService.$all('/v2/filter/all')
     .pipe(
       map((response) => {
         return {
           dataState: DataState.LOADED,
-          appData: response,
+          appData: response.data.filters,
         };
       }),
       startWith({

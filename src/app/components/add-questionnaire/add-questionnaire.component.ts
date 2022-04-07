@@ -2,13 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { IdentifierType } from 'src/app/objects/enum/identifier-type.enum';
 import { ResponseType } from 'src/app/objects/enum/repsonse-type.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
-import { QuestionnaireService } from 'src/app/service/questionnaire.service';
+import { GenericService } from 'src/app/service/generic.service';
+
 
 @Component({
   selector: 'app-add-questionnaire',
@@ -18,7 +18,7 @@ import { QuestionnaireService } from 'src/app/service/questionnaire.service';
 export class AddQuestionnaireComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
-    private questionnaireService:QuestionnaireService) { }
+    private genericService:GenericService) { }
 
   public questionnaireForm: FormGroup;
   public identifierTypes = IdentifierType;
@@ -42,10 +42,9 @@ export class AddQuestionnaireComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.questionnaireForm.value);
     this.isLoading.next(true);
 
-    this.questionnaireService.saveQuestionnaire(this.questionnaireForm.value).subscribe(
+    this.genericService.$save(this.questionnaireForm.value,'/v2/quest/add').subscribe(
       (response:any)=>{
         console.log(response);
         this.isLoading.next(false);
@@ -127,8 +126,6 @@ export class AddQuestionnaireComponent implements OnInit {
       question:[null,Validators.required]
     })
   }
-
-  
 
   identifiers(): FormArray {
     return this.questionnaireForm.get("identifiers") as FormArray

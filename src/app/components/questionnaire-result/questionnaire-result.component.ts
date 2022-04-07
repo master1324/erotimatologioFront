@@ -7,7 +7,6 @@ import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { QuestionnaireService } from 'src/app/service/questionnaire.service';
-import { ResponsesAddedService } from 'src/app/service/responses-added.service';
 import { QuestionnareStatsComponent } from '../questionnare-stats/questionnare-stats.component';
 import $ from 'jquery';
 

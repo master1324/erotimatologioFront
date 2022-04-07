@@ -1,17 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
-import { IdentifierType } from 'src/app/objects/enum/identifier-type.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { FilterService } from 'src/app/service/filter.service';
+import { GenericService } from 'src/app/service/generic.service';
 import { IdentifierService } from 'src/app/service/identifier.service';
-import { QuestionnaireService } from 'src/app/service/questionnaire.service';
+
 
 @Component({
   selector: 'app-questionnaire-identifiers',
@@ -36,10 +35,10 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
   @Output() newFilterEvent = new EventEmitter<string>();
 
   constructor(
-    private questionnaireService: QuestionnaireService,
     private identifierService: IdentifierService,
     private filterService:FilterService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private genericService:GenericService
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +68,6 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
     return 0;
     })
     this.filter =this.currentYear+","+values.join(",");
-    console.log(this.filter);
     this.createFilter(); 
   }
 
@@ -96,22 +94,15 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
   }
 
-//   checkValue(event: any){
-//     console.log(event);
-//     if(this.filter!=undefined){
-//       this.setEnabled(event);
-//     }
-//  }
 
   private initiateIdentifiers(id: number) {
-    this.qIdentifierState$ = this.questionnaireService
-      .questionnaireIdentifiers$(id)
+    this.qIdentifierState$ = this.genericService.$one(id,'/v2/quest/','?filter=')
       .pipe(
         map((response) => {
-          this.qName= response.name;
+          this.qName= response.data.questionnaire.name;
           return {
             dataState: DataState.LOADED,
-            appData: response,
+            appData: response.data.questionnaire,
           };
         }),
         startWith({
@@ -137,14 +128,15 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
 
   private createFilter(){
 
-    this.filterService.addFilter(
+    this.genericService.$save(
       {
         activeFor:Date.parse(this.datetimelocal),
         questionnaireId:this.questionnaireId,
         filter:this.filter,
         enabled: this.enabled,
         questionnaireName:this.qName
-      }
+      },
+      '/v2/filter/add'
     ).subscribe(
       (response:any)=>{
         console.log(response);

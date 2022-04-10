@@ -10,12 +10,12 @@
     </div>
     <div *ngSwitchCase="DataState.LOADED">
         <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="border round" style="padding: 15px;">
-            <h4>Signup</h4>
+            <h4>Διαχείριση Λογαριασμού</h4>
             <!-- USERNAME -->
             <div class="form-row" style="padding: 10px;">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" formControlName="username" placeholder="Username"
+                    <label for="username">Όνομα Χρήστη</label>
+                    <input type="text" class="form-control" id="username" formControlName="username" placeholder="Όνομα Χρήστη"
                         aria-describedby="username">
                     <div id="username">
         
@@ -26,8 +26,8 @@
             <!-- OLD PASSWORD -->
             <div class="form-row" style="padding: 10px;">
                 <div class="form-group">
-                    <label for="oldpass">Username</label>
-                    <input type="text" class="form-control" id="oldpass" formControlName="oldPassword" placeholder="oldPassword"
+                    <label for="oldpass">Ενεργός Κωδικός</label>
+                    <input type="text" class="form-control" id="oldpass" formControlName="oldPassword" placeholder="Ενεργός Κωδικός"
                         aria-describedby="username">
                     <div id="username">
         
@@ -39,21 +39,21 @@
             <div formGroupName="passwords" class="form-row">
                 <div class="form-row" style="padding: 10px;">
                     <div class="form-group">
-                        <label for="password">New Password</label>
+                        <label for="password">Καινούργιος Κωδικός</label>
                         <input type="password" class="form-control" id="password" formControlName="password"
-                            placeholder="Password">
+                            placeholder="Καινούργιος Κωδικός">
                     </div>
                 </div>
         
                 <div class="form-row" style="padding: 10px;">
                     <div class="form-group">
-                        <label for="passwordConfirm">Confirm New Password</label>
+                        <label for="passwordConfirm">Επιβεβαίωση καινούργιου κωδικού</label>
                         <input type="password" id="passwordConfirm" formControlName="passwordConfirm"
-                            placeholder="Confirm Password" aria-describedby="dontmatch" id="dontmatch"
+                            placeholder="Επιβεβαίωση καινούργιου κωδικού" aria-describedby="dontmatch" id="dontmatch"
                             [ngClass]="updateForm.hasError('notSame', 'passwords') && (updateForm.get('passwords.passwordConfirm').dirty) && (updateForm.get('passwords.passwordConfirm').value != '')? 'form-control is-invalid':'form-control '">
                         <div id="dontmatch" class="invalid-feedback"
                             *ngIf="updateForm.hasError('notSame', 'passwords') && (updateForm.get('passwords.passwordConfirm').dirty) && (updateForm.get('passwords.passwordConfirm').value != '')">
-                            oi kodikoi den teriazoun
+                            Οι κωδικοί δεν ταιριάζουν
                         </div>
                     </div>
                 </div>
@@ -65,20 +65,20 @@
             <!-- EMAIL -->
             <div class="form-row" style="padding: 10px;">
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Εmail</label>
                     <input type="email" id="email" formControlName="email" aria-describedby="email"
                         placeholder="pXXXXX@unipi.gr"
                         [ngClass]="(updateForm.controls['email'].errors != null) && (updateForm.controls['email'].value != '') && (updateForm.controls['email'].dirty)?'form-control is-invalid ':'form-control  '">
         
                     <div *ngIf="updateForm.controls['email'].errors != null && updateForm.controls['email'].value != '' && updateForm.controls['email'].dirty"
                         id="email" class="invalid-feedback">
-                        kako email
+                        Μη συμβατό email
                     </div>
                 </div>
             </div>
         
             <div class="form-row" style="padding: 10px;">
-                <button type="submit" [disabled]="!updateForm.valid" class="btn btn-primary">SignUp</button>
+                <button type="submit" [disabled]="!updateForm.valid" class="btn btn-primary">Εγράφη</button>
             </div>
         
         </form>

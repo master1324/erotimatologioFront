@@ -3,12 +3,12 @@
     {{errorMessage}}
 </div>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="border round" style="padding: 15px;">
-    <h4>Signup</h4>
+    <h4>Εγράφη</h4>
     <!-- USERNAME -->
     <div class="form-row" style="padding: 10px;">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Username"
+            <label for="username">Όνομα Χρήστη</label>
+            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Όνομα Χρήστη"
                 aria-describedby="username">
             <div id="username">
 
@@ -20,21 +20,21 @@
     <div formGroupName="passwords" class="form-row">
         <div class="form-row" style="padding: 10px;">
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Κωδικός</label>
                 <input type="password" class="form-control" id="password" formControlName="password"
-                    placeholder="Password">
+                    placeholder="Κωδικός">
             </div>
         </div>
 
         <div class="form-row" style="padding: 10px;">
             <div class="form-group">
-                <label for="passwordConfirm">Confirm Password</label>
+                <label for="passwordConfirm">Επιβεβαίωση κωδικού</label>
                 <input type="password" id="passwordConfirm" formControlName="passwordConfirm"
-                    placeholder="Confirm Password" aria-describedby="dontmatch" id="dontmatch"
+                    placeholder="Επιβεβαίωση κωδικού" aria-describedby="dontmatch" id="dontmatch"
                     [ngClass]="registerForm.hasError('notSame', 'passwords') && (registerForm.get('passwords.passwordConfirm').dirty) && (registerForm.get('passwords.passwordConfirm').value != '')? 'form-control is-invalid':'form-control '">
                 <div id="dontmatch" class="invalid-feedback"
                     *ngIf="registerForm.hasError('notSame', 'passwords') && (registerForm.get('passwords.passwordConfirm').dirty) && (registerForm.get('passwords.passwordConfirm').value != '')">
-                    oi kodikoi den teriazoun
+                    Οι κωδικοί δεν ταιριάζουν
                 </div>
             </div>
         </div>
@@ -53,13 +53,13 @@
 
             <div *ngIf="registerForm.controls['email'].errors != null && registerForm.controls['email'].value != '' && registerForm.controls['email'].dirty"
                 id="email" class="invalid-feedback">
-                kako email
+                Μη συμβατό email
             </div>
         </div>
     </div>
 
     <div class="form-row" style="padding: 10px;">
-        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">SignUp</button>
+        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Εγράφη</button>
     </div>
 
 </form>

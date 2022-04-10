@@ -12,7 +12,7 @@
             
             <div class="d-flex border-bottom" style="margin-top: 15px;margin-bottom: 15px;">
                 <h4 *ifRoles='["ROLE_USER"]' class="text-center "> Επιλέξτε ερωτηματολόγιο για να συμπληρώσετε </h4>
-                <h4 *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'>Epilekste Erotimatologio Gia Energopoisi</h4>           
+                <h4 *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'>Επιλέξτε ερωτηματολόγιο για ενεργοποίηση</h4>           
             </div>
             <!-- <div class="row filtr-container">
                 <div *ngFor="let questionnaire of appState.appData" class="col-md-6 col-lg-4"  style="padding: 25px;">
@@ -52,7 +52,7 @@
                                     <div *ifRoles='["ROLE_USER"]' class="d-flex">
                                         <a href="{{'/quest?id='+questionnaire.id}}" class=" stretched-link"></a>
                                     </div>
-                                    <div *ifRoles='["ROLE_ADMIN"]' class="d-flex">
+                                    <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' class="d-flex">
                                         <a href="{{'/qresult?id='+questionnaire.id}}" class="stretched-link"></a>
                                     </div>
                                 
@@ -72,5 +72,5 @@
 
     </div>
 </div>
-<admin-home *ifRoles='["ROLE_ADMIN"]'></admin-home>
+<admin-home *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'></admin-home>
 <app-see-responses *ifRoles='["ROLE_USER"]'> </app-see-responses>

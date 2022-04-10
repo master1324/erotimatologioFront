@@ -29,10 +29,10 @@
                     <!-- Header katigorias -->
                     <div class="row">
                         <div class="col text-center" style="border-bottom: 1px solid;border-right:1px solid;">
-                            <h5 style="padding: 15px;margin-bottom: 0px;">Erotiseis</h5>
+                            <h5 style="padding: 15px;margin-bottom: 0px;">Ερωτήσεις</h5>
                         </div>
                         <div class="col text-center" style="border-bottom:1px solid ;">
-                            <h5 style="padding: 15px;margin-bottom: 0px;">Apotelesmata</h5>
+                            <h5 style="padding: 15px;margin-bottom: 0px;">Αποτελέσματα</h5>
                         </div>
                     </div>
                     <!-- Apotelesmata Katigorias -->
@@ -56,7 +56,7 @@
                             <div class="d-flex justify-content-xl-between" style="margin-top: 15px;">
                                 <h4 style="margin-bottom: 0px;">{{question.question}}</h4>
                                 <div id="reCounter" style="display: none;">
-                                    <span>Apantisi </span>
+                                    <span>Απάντηση </span>
                                     <span id="counter"></span>
                                     <span>{{'/'+question.result.split(',').length}}</span>
                                 </div>
@@ -65,7 +65,7 @@
 
                                 <p class="border text-center d-flex justify-content-xl-center align-items-xl-center"
                                     style="height: 200px;font-size: large;">
-                                    Patiste ta koubia gia na deite tis apantiseis
+                                    Πατήστε τα κουμπιά για να δείτε τις απαντήσεις
                                 </p>
                             </div>
                             <div *ngFor="let response of question.result.split(',')" class="mySlides"
@@ -78,8 +78,8 @@
                     </div>
 
                     <div class="d-flex justify-content-xl-center ">
-                        <button class="btn btn-info" onclick="plusDivs(-1);showCounter()">❮ Prev</button>
-                        <button class="btn btn-info" onclick="plusDivs(1);showCounter()" style="margin-left: 5px;">Next
+                        <button class="btn btn-info" onclick="plusDivs(-1);showCounter()">❮ Προηγούμενο</button>
+                        <button class="btn btn-info" onclick="plusDivs(1);showCounter()" style="margin-left: 5px;">Επόμενο
                             ❯</button>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
 
     <!-- ASIDE COMPONTENT -->
     <div class="col border"  style="margin: 15px;padding: 15px;">
-        <h4>Leptomeries</h4>
+        <h4>Λεπτομέρειες</h4>
         <questionnare-stats [parentFilter]="filter"></questionnare-stats>
     </div>
 </div>

@@ -8,12 +8,12 @@
     <div *ngSwitchCase="DataState.LOADED">
     
         <div class="row border-bottom" style="padding: 15px;">
-            <span class="col">Arithmos Apantiseon:</span>
+            <span class="col">Αριθμός απαντήσεων:</span>
             <span class="col">{{filterState.appData.numOfResponses}}</span>
         </div>
 
         <div class="row border-bottom"  style="padding: 15px;">
-            <span class="col ">Katastasi</span>
+            <span class="col ">Κατάσταση</span>
             <div class="col">
                 <label class="switch">
                     <input (change)="checkValue(enabled?'1':'0')" type="checkbox" [(ngModel)]="enabled">
@@ -24,7 +24,7 @@
         </div>
 
         <div class="row border-bottom"  style="padding: 15px;">
-            <span class="col">Energo mexri</span>
+            <span class="col">Ενεργό μέχρι</span>
             <!-- <span class="col">{{filterState.appData.activeFor | date:'short'}}</span> -->
             <div class="col">
                 <!-- {{filterState.appData.activeFor | date:'yyyy-MM-ddTHH:mm'}} -->

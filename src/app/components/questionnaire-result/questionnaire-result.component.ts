@@ -9,6 +9,7 @@ import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { QuestionnaireService } from 'src/app/service/questionnaire.service';
 import { QuestionnareStatsComponent } from '../questionnare-stats/questionnare-stats.component';
 import $ from 'jquery';
+import { GenericService } from 'src/app/service/generic.service';
 
 @Component({
   selector: 'app-questionnaire-result',
@@ -28,6 +29,7 @@ export class QuestionnaireResultComponent implements OnInit {
 
   constructor(
     private questionnaireService: QuestionnaireService,
+    private genericService:GenericService,
     private route: ActivatedRoute
   ) {
 
@@ -52,7 +54,7 @@ export class QuestionnaireResultComponent implements OnInit {
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
         (response) =>{
           if(response){
-            this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+            this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
             this.initiateBody(this.questionnaireId,this.filter)
           }
         }
@@ -77,7 +79,7 @@ export class QuestionnaireResultComponent implements OnInit {
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
         (response) =>{
           if(response){
-            this.showChangeHappendDiv("Prosthethikan " + this.child.responseDiference + " pantiseis")
+            this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
             if(!this.isFirstTime){
               this.initiateBody(this.questionnaireId,this.filter)
               this.isFirstTime =false;
@@ -91,14 +93,13 @@ export class QuestionnaireResultComponent implements OnInit {
   }
 
   private initiateBody(id: number, filter: string) {
-    this.qResultState$ = this.questionnaireService
-      .questionnaireResult$(id, filter)
+    this.qResultState$ = this.genericService.$one(id,'/v2/quest/','/results?filter='+filter)
       .pipe(
         map((response) => {
           this.resultIsPresent = true;       
           return {
             dataState: DataState.LOADED,
-            appData: response,
+            appData: response.data.results,
           };
         }),
         startWith({

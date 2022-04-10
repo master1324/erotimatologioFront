@@ -17,7 +17,7 @@
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Identifiers
+                        Αναγνωριστικά
                     </button>
                 </h2>
 
@@ -33,7 +33,7 @@
                                 <div style="width: 20vw;flex-basis: 50%;"
                                     *ngFor="let identifier of identifiersState.appData.eligibleResponsesIdentifiers | keyvalue;let i = index">
 
-                                    <label style="margin-bottom: 5px;">{{identifier.key}}</label>
+                                    <label style="margin-bottom: 5px;">{{IdentifierType[identifier.key]}}</label>
 
                                     <select class="form-select  " name="{{'select'+i}}" required
                                         aria-label=".form-select-lg example" ngModel>
@@ -52,7 +52,7 @@
 
                                     <div class="row">
                                         <!-- <div class="col">Energo</div> -->
-                                        <div class="col">Energo Mexri</div>
+                                        <div class="col">Ενεργό Μέχρι</div>
                                         
                                     </div>
                                     <div class="row">
@@ -71,28 +71,28 @@
 
 
 
-                            <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 10px;"
+                            <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' style="margin-top: 10px;"
                                 class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
-                                <input type="submit" value="Set Identifiers" class="btn btn-primary"
+                                <input type="submit" value="Ενεργοποίηση Ερωτηματολογίου" class="btn btn-primary"
                                     [disabled]="identifierForm.invalid">
                             </div>
 
                             <div *ifRoles='["ROLE_USER"]' style="margin-top: 10px;"
                                 class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
-                                <input (click)="setFilterUser(identifierForm)" type="button" value="Set Identifiers2" class="btn btn-primary"
+                                <input (click)="setFilterUser(identifierForm)" type="button" value="Επιλογή Αναγνωριστικών" class="btn btn-primary"
                                     [disabled]="identifierForm.invalid">
                             </div>
 
                         </form>
                         <!-- COPY URL  -->
-                        <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 25px;">
+                        <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' style="margin-top: 25px;">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Link Errotimatologiou"
+                                <input type="text" class="form-control" placeholder="Σύνδεσμος Ερωτηματολογίου"
                                     aria-label="Link Errotimatologiou" aria-describedby="basic-addon2"
                                     [(ngModel)]="link">
                                 <div class="input-group-append">
                                     <button [cdkCopyToClipboard]="link" class="btn btn-outline-secondary"
-                                        type="button">Antigrafi Link</button>
+                                        type="button">Αντιγραφή Συνδέσμου</button>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Identifiers
+                        Αναγνωριστικά
                     </button>
                 </h2>
 
@@ -144,7 +144,7 @@
                             <li *ngFor="let identifier of filterState.appData | keyvalue;let i = index"
                                 class="list-group-item">
                                 <div class="row">
-                                    <span class="col border-right">{{identifier.key}}</span>
+                                    <span class="col border-right">{{IdentifierType[identifier.key]}}</span>
                                     <span class="col-10">{{identifier.value}}</span>
                                 </div>
                             </li>
@@ -183,12 +183,12 @@
                         <!-- COPY URL  -->
                         <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 25px;">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Link Errotimatologiou"
+                                <input type="text" class="form-control" placeholder="Σύνδεσμος Ερωτηματολογίου"
                                     aria-label="Link Errotimatologiou" aria-describedby="basic-addon2"
                                     [(ngModel)]="link">
                                 <div class="input-group-append">
                                     <button [cdkCopyToClipboard]="link" class="btn btn-outline-secondary"
-                                        type="button">Antigrafi Link</button>
+                                        type="button">Αντιγραφή Συνδέσμου</button>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                         <div *ifRoles='["ROLE_USER"]' style="margin-top: 10px;"
                             class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
                             <a href="{{'http://localhost:4200/quest?id='+questionnaireId}}" class="btn btn-primary"
-                                role="button">Apantiste se Errotimatologio tis epilogis sas</a>
+                                role="button">Απαντήστε σε ερωτηματολόγιο της επιλογής σας</a>
                         </div>
 
                     </div>

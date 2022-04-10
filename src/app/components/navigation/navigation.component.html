@@ -16,15 +16,15 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/home"
-            >Home</a
+            >Αρχική Σελίδα</a
           >
         </li>
         <li *ngIf="isLoggedIn()" class="nav-item">
-          <a *ifRoles='["ROLE_ADMIN"]'
+          <a *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]'
             class="nav-link active"
             aria-current="page"
             routerLink="/addq"
-            >Add Questionnaire</a
+            >Προσθήκη Ερωτηματολογίου</a
           >
         </li>
         <li *ngIf="isLoggedIn()" class="nav-item">
@@ -32,29 +32,29 @@
             class="nav-link active"
             aria-current="page"
             routerLink="/users"
-            >Manage Teachers</a
+            >Διαχείριση Καθηγητών</a
           >
         </li>
         <li *ngIf="isLoggedIn()"  class="nav-item">
           <a *ifRoles='["ROLE_USER"]' class="nav-link active" aria-current="page" routerLink="/responses"
-            >See Responses</a
+            >Προβολή Απαντήσεων</a
           >  
         </li>
       </ul>
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li *ngIf="isLoggedIn()" class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/profile"
-            >Profile</a
+            >Διαχείριση Λογαριασμού</a
           >
         </li>
         <li *ngIf="!isLoggedIn()" class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/login"
-            >Login</a
+            >Σύνδεση</a
           >
         </li>
         <li *ngIf="!isLoggedIn()" class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/signup"
-            >SignUp</a
+            >Εγράφη</a
           >
         </li>
         <li *ngIf="isLoggedIn()" class="nav-item">
@@ -63,7 +63,7 @@
             aria-current="page"
             (click)="logout()"
             href="/login"
-            >Logout</a
+            >Αποσύνδεση</a
           >
         </li>
       </ul>

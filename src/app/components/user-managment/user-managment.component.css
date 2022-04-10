@@ -4,3 +4,8 @@
 #to-hover:hover + #to-show {
     display: block; 
 }
+
+td,th {
+    text-align: center;
+    vertical-align: middle;
+  }

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
+import { IdentifierType } from 'src/app/objects/enum/identifier-type.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
 import { FilterService } from 'src/app/service/filter.service';
@@ -26,6 +27,7 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
   public link:string;
   private currentYear: number=new Date().getFullYear();
   readonly DataState = DataState;
+  readonly IdentifierType = IdentifierType;
   public datetimelocal:string ;
   public enabled:boolean = true;
   private qName:string;

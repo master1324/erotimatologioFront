@@ -1,10 +1,10 @@
 <!-- TITLE SEARCH ADD TEACHER -->
 <div class="row" style="margin-top:25px">
 
-    <h4 class="col">Kathigites</h4>
+    <h4 class="col">Καθηγητές</h4>
 
     <div class="input-group col">
-        <input type="text" class="form-control" placeholder="Anazitisi" aria-label="Anazitisi"
+        <input (change)="search($event)" type="text" class="form-control" placeholder="Αναζήτηση" aria-label="Anazitisi"
             aria-describedby="basic-addon2">
         <div class="input-group-append">
 
@@ -12,8 +12,7 @@
         </div>
     </div>
     <div class="col d-flex justify-content-end ">
-        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Dimiourgia
-            Kathigiti</button>
+        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Δημιουργία καθηγητή</button>
     </div>
 
 
@@ -25,7 +24,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Prosthiki Kathigiti</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Προσθήκη καθηγητή</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -34,21 +33,20 @@
 
 
                     <div class="mb-3">
-                        <label for="Onomateponimo" class="form-label">Onomateponimo</label>
+                        <label for="Onomateponimo" class="form-label">Ονοματεπώνυμο</label>
                         <input formControlName="name" type="text" class="form-control" id="Onomateponimo"
                             aria-describedby="emailHelp">
                     </div>
 
                     <div class="mb-3">
-                        <label for="Username" class="form-label">Onoma Xristi</label>
+                        <label for="Username" class="form-label">Όνομα Χρήστη</label>
                         <input formControlName="username" type="text" class="form-control" id="Username"
                             aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted">O kodikos kai to onomaxristi tha stalei automata sto email tou
-                            kathigiti</small>
+                        <small id="emailHelp" class="form-text text-muted">Ο κωδικός και το όνομα χρήστη θα σταλθούν αυτόματα στο email του καθηγητή</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <label for="exampleInputEmail1" class="form-label">Email</label>
                         <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1"
                             aria-describedby="emailHelp">
                     </div>
@@ -56,14 +54,14 @@
 
 
                     <!--Subjects-->
-                    <h5>Subjects</h5>
+                    <h5>Μαθήματα</h5>
                     <div formArrayName="subjects" class="border rounded" style="padding: 15px;margin-bottom: 15px;">
 
                         <div class="input-group mb-3">
 
                             <select (change)="onSelectSubjectChange($event)" class="form-select"
                                 id="inputGroupSelect02">
-                                <option value="-1" selected>Epilekste subject</option>
+                                <option value="-1" selected>Επιλέξτε μάθημα</option>
 
                                 <option *ngFor="let subject of subjectsArray;let idIndex=index" value="{{idIndex}}">
                                     {{subject.name}}</option>
@@ -71,7 +69,7 @@
                             </select>
 
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" (click)="addSubects()">Prosthiki</button>
+                                <button class="btn btn-primary" type="button" (click)="addSubects()">Προσθήκη</button>
                             </div>
                         </div>
 
@@ -94,14 +92,14 @@
                     </div>
 
                     <!--Departments-->
-                    <h5>Departments</h5>
+                    <h5>Τμήματα</h5>
                     <div formArrayName="departments" class="border rounded" style="padding: 15px;margin-bottom: 15px;">
 
                         <div class="input-group mb-3">
 
                             <select (change)="onSelectDepartmentChange($event)" class="form-select"
                                 id="inputGroupSelect02">
-                                <option value="-1" selected>Epilekste subject</option>
+                                <option value="-1" selected>Επιλέξτε τμήμα</option>
 
                                 <option *ngFor="let department of departmentsArray;let ikIndex=index"
                                     value="{{ikIndex}}">
@@ -111,7 +109,7 @@
 
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button"
-                                    (click)="addDepartments()">Prosthiki</button>
+                                    (click)="addDepartments()">Προσθήκη</button>
                             </div>
                         </div>
 
@@ -134,16 +132,16 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Έξοδος</button>
                         <!-- <button type="submit" class="btn btn-primary">Dimiourgia</button> -->
 
                         <button type="submit" class="btn btn-primary"
                             [disabled]="addTeacherForm.invalid ||(isLoading$|async)">
                             <!-- <i  class="fas fa-spinner fa-spin"> Saving </i> -->
                             <div *ngIf="isLoading$|async" class="spinner-border" role="status">
-                                <span class="sr-only">Saving..</span>
+                                <span class="sr-only">Αποθήκευση..</span>
                             </div>
-                            <span *ngIf="!(isLoading$|async)">Dimiourgia</span>
+                            <span *ngIf="!(isLoading$|async)">Προσθήκη καθηγητή</span>
                         </button>
                     </div>
 
@@ -161,7 +159,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Update</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Ενημέρωση στοιχείων καθηγητή</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -176,13 +174,13 @@
                         <form [formGroup]="updateTeacherForm" (ngSubmit)="onUpdateTeacherSubmit()">
 
                             <div class="mb-3">
-                                <label for="Onomateponimo" class="form-label">Onomateponimo</label>
+                                <label for="Onomateponimo" class="form-label">Ονοματεπώνυμο</label>
                                 <input formControlName="name" type="text" class="form-control" id="Onomateponimo"
                                     aria-describedby="emailHelp">
                             </div>
 
                             <!--Subjects-->
-                            <h5>Subjects</h5>
+                            <h5>Μαθήματα</h5>
                             <div formArrayName="subjects" class="border rounded"
                                 style="padding: 15px;margin-bottom: 15px;">
 
@@ -190,7 +188,7 @@
 
                                     <select (change)="onSelectSubjectChange2($event)" class="form-select"
                                         id="inputGroupSelect03">
-                                        <option value="-1" selected>Epilekste subject</option>
+                                        <option value="-1" selected>Επιλέξτε μάθημα</option>
 
                                         <option *ngFor="let subject of subjectsArray;let idIndex=index"
                                             value="{{idIndex}}">
@@ -200,7 +198,7 @@
 
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button"
-                                            (click)="addSubects2()">Prosthiki</button>
+                                            (click)="addSubects2()">Προσθήκη</button>
                                     </div>
                                 </div>
 
@@ -222,7 +220,7 @@
                             </div>
 
                             <!--Departments-->
-                            <h5>Departments</h5>
+                            <h5>Τμήματα</h5>
                             <div formArrayName="departments" class="border rounded"
                                 style="padding: 15px;margin-bottom: 15px;">
 
@@ -230,7 +228,7 @@
 
                                     <select (change)="onSelectDepartmentChange2($event)" class="form-select"
                                         id="inputGroupSelect02">
-                                        <option value="-1" selected>Epilekste subject</option>
+                                        <option value="-1" selected>Επιλέξτε τμήμα</option>
 
                                         <option *ngFor="let department of departmentsArray;let ikIndex=index"
                                             value="{{ikIndex}}">
@@ -240,7 +238,7 @@
 
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button"
-                                            (click)="addDepartments2()">Prosthiki</button>
+                                            (click)="addDepartments2()">Προσθήκη</button>
                                     </div>
                                 </div>
 
@@ -263,16 +261,16 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Έξοδος</button>
                                 <!-- <button type="submit" class="btn btn-primary">Dimiourgia</button> -->
 
                                 <button type="submit" class="btn btn-primary"
                                     [disabled]="updateTeacherForm.invalid ||(isLoading$|async)">
                                     <!-- <i  class="fas fa-spinner fa-spin"> Saving </i> -->
                                     <div *ngIf="isLoading$|async" class="spinner-border" role="status">
-                                        <span class="sr-only">Saving..</span>
+                                        <span class="sr-only">Αποθήκευση..</span>
                                     </div>
-                                    <span *ngIf="!(isLoading$|async)">Update</span>
+                                    <span *ngIf="!(isLoading$|async)">Αποθήκευση αλλαγών</span>
                                 </button>
                             </div>
 
@@ -304,10 +302,10 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Onomateponimo</th>
-                    <th scope="col">Mathiamta</th>
-                    <th scope="col">Departments</th>
-                    <th scope="col text-right"> Edit/Delete </th>
+                    <th scope="col">Ονοματεπώνυμο</th>
+                    <th scope="col">Μαθήματα</th>
+                    <th scope="col">Τμήματα</th>
+                    <th scope="col text-right"> Επεξεργασία/Διαγραφή </th>
                 </tr>
             </thead>
             <tbody>

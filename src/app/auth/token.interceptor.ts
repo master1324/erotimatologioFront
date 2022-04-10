@@ -19,8 +19,9 @@ export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
-  private urlsToSkip=["/login"]
+  private urlsToSkip=["/login","/signup"]
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    
     
 
     if(this.urlsToSkip.includes(this.router.url)){

@@ -16,6 +16,7 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser!: string;
+  public redirectUrl:string;
  
 
   constructor(private http: HttpClient) {}
@@ -46,15 +47,22 @@ export class AuthService {
   }
 
 
-  isUser$ = <Observable<boolean>>
-  this.http.get<boolean>( config.apiUrl +'/is_user')
-  .pipe(
-    tap(),
-    catchError(this.handleError)
-  );
+  // isUser$ = <Observable<boolean>>
+  // this.http.get<boolean>( config.apiUrl +'/is_user')
+  // .pipe(
+  //   tap(),
+  //   catchError(this.handleError)
+  // );
 
-  isAdmin$ = <Observable<boolean>>
-  this.http.get<boolean>( config.apiUrl +'/is_admin')
+  // isAdmin$ = <Observable<boolean>>
+  // this.http.get<boolean>( config.apiUrl +'/is_admin')
+  // .pipe(
+  //   tap(),
+  //   catchError(this.handleError)
+  // );
+
+  hasRole$ =(role:string[])=><Observable<boolean>>
+  this.http.get<boolean>( config.apiUrl +'/hasRole?roles='+role)
   .pipe(
     tap(),
     catchError(this.handleError)
@@ -88,11 +96,8 @@ export class AuthService {
   }
 
   private doLoginUser(username: string, tokens: Tokens) {
-  
-    
       this.loggedUser = username;
       this.storeTokens(tokens);
-    
   }
 
   private doLogoutUser() {
@@ -108,9 +113,7 @@ export class AuthService {
     localStorage.setItem(this.JWT_TOKEN, jwt);
   }
 
-  private storeTokens(tokens: Tokens) {
-    console.log("EPP");
-    
+  private storeTokens(tokens: Tokens) {   
     localStorage.setItem(this.JWT_TOKEN, tokens.access_token);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refresh_token);
   }

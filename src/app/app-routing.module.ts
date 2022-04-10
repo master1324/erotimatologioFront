@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from './auth/admin.guard';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
+import { CheckRoleGuard } from './auth/check-role-guard.guard';
 import { UserGuard } from './auth/user.guard';
 import { AddQuestionnaireComponent } from './components/add-questionnaire/add-questionnaire.component';
 import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
@@ -26,8 +27,8 @@ const routes: Routes = [
   {path:'q',component:QuestionnaireComponent,canActivate:[AuthenticatedGuard]},
   {path:'quest',component:QuestionnaireReactiveComponent,canActivate:[AuthenticatedGuard,UserGuard]},
   {path:'responses',component:SeeResponsesComponent,canActivate:[AuthenticatedGuard,UserGuard]},
-  {path:'addq',component:AddQuestionnaireComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
-  {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
+  {path:'addq',component:AddQuestionnaireComponent,canActivate:[AuthenticatedGuard,CheckRoleGuard]},
+  {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,CheckRoleGuard]},
   {path:'users',component:UserManagmentComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
   {path:'profile',component:ManageProfileComponent,canActivate:[AuthenticatedGuard]}
 ];

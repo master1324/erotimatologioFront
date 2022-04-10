@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import $ from 'jquery';
+import { GenericService } from 'src/app/service/generic.service';
 import { RegisterService } from 'src/app/service/register.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private registerService: RegisterService,
-    private router: Router
+    private router: Router,
+    private genericService:GenericService
   ) {}
 
   ngOnInit(): void {
@@ -49,29 +51,21 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value);
-
-    this.registerService
-      .register({
+      this.genericService.$save({
         username: this.registerForm.controls['username'].value,
         password: this.registerForm.get('passwords.password').value,
         email: this.registerForm.controls['email'].value,
         frontendLink: 'xd',
-      } )
+      },'/v2/user/add')
       .subscribe(
         (response: any) => {
-          console.log(response);
-          //this.isLoading.next(false);
-          
-          this.router.navigate(['/login']);
-          
+          console.log(response); 
+          this.router.navigate(['/login']);  
         },
-        (error: HttpErrorResponse) => {
+        (error) => {
           console.log(error);
-          this.errorMessage = error.error;
+          this.errorMessage = error;
           this.showErrorDiv()
-          
-          // this.isLoading.next(false);
         }
       );
   }

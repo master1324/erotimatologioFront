@@ -21,7 +21,6 @@ export class IfRolesDirective {
   public ngOnInit(): void {
     this.subscription.push(
       this.authService.getRoles().subscribe(res => {
-        console.log(res+" DIRECTIVE")
         if (!res) {
           // Remove element from DOM
           this.viewContainerRef.clear();

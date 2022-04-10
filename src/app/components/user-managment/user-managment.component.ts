@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, startWith } from 'rxjs/operators';
+import { catchError, map, startWith, tap } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppResponse } from 'src/app/objects/interface/app-response';
 import { AppState } from 'src/app/objects/interface/app-state';
@@ -37,6 +37,7 @@ export class UserManagmentComponent implements OnInit {
   public identifiersSet: boolean = false;
   private identifiers: Identifier[] = [];
   private teacher:Teacher;
+  private initialResponse:AppResponse;
 
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
@@ -124,6 +125,28 @@ export class UserManagmentComponent implements OnInit {
       }
     );
     
+  }
+
+  search(event) {
+    console.log(event.target.value);
+    this.teachersState$ = this.filterResponse(
+      event.target.value,
+      this.currentAppResponse
+    ).pipe(
+      map((response) => {
+        return {
+          dataState: DataState.LOADED,
+          appData: response,
+        };
+      }),
+      startWith({
+        dataState: DataState.LOADING,
+      }),
+      catchError((error: string) => {
+        console.log(error);
+        return of({ dataState: DataState.ERROR, error });
+      })
+    );
   }
 
   deleteTeacher(id:number){
@@ -356,13 +379,12 @@ export class UserManagmentComponent implements OnInit {
   private setIdentifiers() {
     this.genericService.$all('/identifier/all').subscribe(
       (response) => {
-        console.log('identifiers received');
 
         this.identifiers = response.data.identifiers;
 
 
         this.subjectsArray = this.identifiers.filter(
-          (ident) => ident.type === 'SUBJECT'
+          (ident) =>  ident.type === 'SUBJECT'
         );
 
         this.departmentsArray = this.identifiers.filter(
@@ -374,6 +396,38 @@ export class UserManagmentComponent implements OnInit {
       (error) => {
         console.log(error);
       }
+    );
+  }
+
+  private filterResponse(filter: string, response: AppResponse) {
+    return new Observable<AppResponse>((subscriber) => {
+      console.log(response);
+      subscriber.next(
+        filter === ''
+          ? { ...response, message: 'filtered' }
+          : {
+              ...response,
+              //message: response.data.qresponses.filter(filterParameter => filterParameter[searchParameter] === filter).length > 0? 'Filtered by filter ${filter}':'Nothing Found',
+              data: {
+                ...response.data,
+                teachers: response.data.teachers.filter(teacher => {
+
+                  return teacher.name.includes(filter) ||
+                  teacher.subjects.find(subject => subject.name.toUpperCase().includes(filter.toUpperCase())) ||
+                  teacher.departments.find(department => department.name.toUpperCase().includes(filter.toUpperCase())) 
+                  // return Object.values(teacher).find((a) => {
+                  //   console.log(Object.values(a).join('')+"TEST");
+                    
+                  //   return Object.values(a).join('').toUpperCase().includes(filter.toUpperCase());
+                  // });
+                }),
+              },
+            }
+      );
+      subscriber.complete();
+    }).pipe(
+      tap(console.log)
+      //catchError(this.handleError)
     );
   }
 }

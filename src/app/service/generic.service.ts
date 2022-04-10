@@ -51,8 +51,9 @@ export class GenericService {
         {
           ...response,
           message: response.data[parameter].filter(filterParameter => filterParameter[searchParameter] === filter).length > 0? 'Filtered by filter ${filter}':'Nothing Found',
-          data:{      
-            parameter: response.data[parameter].filter(filterParameter => filterParameter[searchParameter] === filter)
+          data:{
+            ...response.data,      
+            data: response.data[parameter].filter(filterParameter => filterParameter[searchParameter] === filter)
           }
         }
       );

@@ -6,6 +6,7 @@ import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { CheckRoleGuard } from './auth/check-role-guard.guard';
 import { UserGuard } from './auth/user.guard';
 import { AddQuestionnaireComponent } from './components/add-questionnaire/add-questionnaire.component';
+import { EditQuestionnaireComponent } from './components/edit-questionnaire/edit-questionnaire.component';
 import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -30,7 +31,8 @@ const routes: Routes = [
   {path:'addq',component:AddQuestionnaireComponent,canActivate:[AuthenticatedGuard,CheckRoleGuard]},
   {path:'qresult',component:QuestionnaireResultComponent,canActivate:[AuthenticatedGuard,CheckRoleGuard]},
   {path:'users',component:UserManagmentComponent,canActivate:[AuthenticatedGuard,AdminGuard]},
-  {path:'profile',component:ManageProfileComponent,canActivate:[AuthenticatedGuard]}
+  {path:'profile',component:ManageProfileComponent,canActivate:[AuthenticatedGuard]},
+  {path:'qedit',component:EditQuestionnaireComponent,canActivate:[AuthenticatedGuard,AdminGuard]}
 ];
 
 @NgModule({

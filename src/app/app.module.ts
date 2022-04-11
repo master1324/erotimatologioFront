@@ -28,7 +28,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component';
 import { UserManagmentComponent } from './components/user-managment/user-managment.component';
-import { ManageProfileComponent } from './components/manage-profile/manage-profile.component'
+import { ManageProfileComponent } from './components/manage-profile/manage-profile.component';
+import { EditQuestionnaireComponent } from './components/edit-questionnaire/edit-questionnaire.component'
 
 
 
@@ -52,7 +53,8 @@ import { ManageProfileComponent } from './components/manage-profile/manage-profi
     AdminHomeComponent,
     QuestionnareStatsComponent,
     UserManagmentComponent,
-    ManageProfileComponent
+    ManageProfileComponent,
+    EditQuestionnaireComponent
   ],
   imports: [
     CommonModule,

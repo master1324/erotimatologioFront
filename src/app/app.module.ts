@@ -29,7 +29,8 @@ import { AdminHomeComponent } from './components/admin-home/admin-home.component
 import { QuestionnareStatsComponent } from './components/questionnare-stats/questionnare-stats.component';
 import { UserManagmentComponent } from './components/user-managment/user-managment.component';
 import { ManageProfileComponent } from './components/manage-profile/manage-profile.component';
-import { EditQuestionnaireComponent } from './components/edit-questionnaire/edit-questionnaire.component'
+import { EditQuestionnaireComponent } from './components/edit-questionnaire/edit-questionnaire.component';
+import { NgChartsModule } from 'ng2-charts'
 
 
 
@@ -65,7 +66,8 @@ import { EditQuestionnaireComponent } from './components/edit-questionnaire/edit
     ReactiveFormsModule,
     FormsModule,
     NoopAnimationsModule,
-    ClipboardModule
+    ClipboardModule,
+    NgChartsModule
   ],
   providers: [
     AuthGuard,

@@ -9,7 +9,7 @@
     
         <div class="row border-bottom" style="padding: 15px;">
             <span class="col">Αριθμός απαντήσεων:</span>
-            <span class="col">{{filterState.appData.numOfResponses}}</span>
+            <span class="col">{{filterState.appData.data.filter.numOfResponses}}</span>
         </div>
 
         <div class="row border-bottom"  style="padding: 15px;">
@@ -28,7 +28,7 @@
             <!-- <span class="col">{{filterState.appData.activeFor | date:'short'}}</span> -->
             <div class="col">
                 <!-- {{filterState.appData.activeFor | date:'yyyy-MM-ddTHH:mm'}} -->
-                <input (input)="dateChanged()"  class="form-control" type="datetime-local" value="{{filterState.appData.activeFor | date:'yyyy-MM-ddTHH:mm'}}" [(ngModel)]="date" >
+                <input (input)="dateChanged()"  class="form-control" type="datetime-local" value="{{filterState.appData.data.filter.activeFor | date:'yyyy-MM-ddTHH:mm'}}" [(ngModel)]="date" >
             </div>
         </div>
 

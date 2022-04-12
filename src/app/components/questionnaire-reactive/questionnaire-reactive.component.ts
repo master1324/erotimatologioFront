@@ -60,13 +60,12 @@ export class QuestionnaireReactiveComponent implements OnInit {
   }
 
   public save(){  
-    console.log(this.responses); 
     this.isLoading.next(true);
 
     this.genericService.$save(this.responses,'/v2/response/addAll')
     .subscribe(
       (response:any)=>{
-        this.showSuccessDiv("Oi apantiseis sas apothilkeutikan me epitixeia");
+        this.showSuccessDiv("Οι απαντήσεις σας αποθηκευτήκαν με επιτυχία");
         this.isLoading.next(false);
       },
       (error)=>{
@@ -96,8 +95,6 @@ export class QuestionnaireReactiveComponent implements OnInit {
     document.getElementById("errorMessage").innerHTML = message;
     $('#error').delay(4000).fadeOut('slow');
   }
-
-  
 
   private initiateBody(id:number,filter:string){
     this.qBodyState$ = this.genericService.$one(id,'/v2/quest/','?filter='+filter)

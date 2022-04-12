@@ -24,6 +24,19 @@ export class QuestionnaireResultComponent implements OnInit {
   readonly DataState = DataState;
   private changeHappendSubscription:Subscription;
   private isFirstTime:boolean =true;
+  barChartLegend =false
+  options = {
+    animation: {
+        duration: 0
+    },
+    scales: {
+      y: {
+        ticks: {
+          stepSize: 1
+       }
+      }
+    }
+}
 
   @ViewChild(QuestionnareStatsComponent) child;
 
@@ -45,6 +58,8 @@ export class QuestionnaireResultComponent implements OnInit {
       this.initiateBody(this.questionnaireId,this.filter)
       this.resultIsPresent = true;
     }    
+
+   
     
   }
 
@@ -54,7 +69,8 @@ export class QuestionnaireResultComponent implements OnInit {
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
         (response) =>{
           if(response){
-            this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
+            console.log(response);
+            //this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
             this.initiateBody(this.questionnaireId,this.filter)
           }
         }
@@ -78,6 +94,7 @@ export class QuestionnaireResultComponent implements OnInit {
     if(this.qResultState$ == undefined){
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
         (response) =>{
+          console.log("APO EDOOO");
           if(response){
             this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
             if(!this.isFirstTime){
@@ -95,7 +112,7 @@ export class QuestionnaireResultComponent implements OnInit {
   private initiateBody(id: number, filter: string) {
     this.qResultState$ = this.genericService.$one(id,'/v2/quest/','/results?filter='+filter)
       .pipe(
-        map((response) => {
+        map((response) => {        
           this.resultIsPresent = true;       
           return {
             dataState: DataState.LOADED,
@@ -111,6 +128,20 @@ export class QuestionnaireResultComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+  }
+
+  public createDataSet(resultMap:Record<string,number>){
+
+    //Math.max.apply(Math, Object.values(resultMap).map(function(o) { return o.y; }))
+    let indexOfMaxValue = Object.values(resultMap).reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+    let colors = ["red","red","red","red","red"]
+    colors[indexOfMaxValue] ="green"
+    return{
+      datasets:[{
+        data: resultMap,
+        backgroundColor: colors
+      }]
+    }
   }
 
   ngOnDestroy(): void{

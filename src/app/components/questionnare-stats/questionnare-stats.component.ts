@@ -1,10 +1,19 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import {
+  Component,
+  Inject,
+  Input,
+  LOCALE_ID,
+  NgZone,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subscription, timer } from 'rxjs';
 import { catchError, map, mergeMap, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
+import { AppResponse } from 'src/app/objects/interface/app-response';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Filter } from 'src/app/objects/interface/filter';
 import { FilterService } from 'src/app/service/filter.service';
@@ -16,7 +25,7 @@ import { GenericService } from 'src/app/service/generic.service';
   styleUrls: ['./questionnare-stats.component.css'],
 })
 export class QuestionnareStatsComponent implements OnInit {
-  public filterState$: Observable<AppState<Filter>>;
+  public filterState$: Observable<AppState<AppResponse>>;
 
   private changeHappend = new BehaviorSubject<boolean>(false);
   public changeHappend$ = this.changeHappend.asObservable();
@@ -33,10 +42,13 @@ export class QuestionnareStatsComponent implements OnInit {
   public responseDiference: number;
   @Input() parentFilter: string;
 
+  private latestFilter$: Observable<AppResponse>;
+
   constructor(
     private filterService: FilterService,
     private genericSerivce: GenericService,
     private route: ActivatedRoute,
+    private zone: NgZone,
     @Inject(LOCALE_ID) private locale: string
   ) {}
 
@@ -48,11 +60,96 @@ export class QuestionnareStatsComponent implements OnInit {
     if (this.filter == undefined) {
       this.filter = this.parentFilter;
     }
-    this.getStats();
 
-    this.statsSubscription = timer(0, this.reloadInterval)
-      .pipe(mergeMap(async (_) => this.getStats()))
-      .subscribe();
+    this.filterState$ = this.getFilter(this.filter);
+    // this.getStats();
+
+    setInterval(() => {
+      this.checkFilterForChanges(this.filter);
+    }, 5 * 1000);
+
+    // this.statsSubscription = timer(0, this.reloadInterval)
+    //   .pipe(mergeMap(async (_) =>this.doSomthing()))
+    //   .subscribe();
+
+    this.changeHappend$.subscribe((resp) => {
+      if (resp) {
+        console.log('change happend ' + this.responseDiference);
+        this.updateView();
+      }
+    });
+  }
+
+  doSomthing() {}
+
+  private getStats() {
+    if (this.filterObject == undefined) {
+      // this.filterState$ = this.filterService
+      //   .filter$(this.filter, this.questionnaireId)
+      //   .pipe(
+      //     map((response) => {
+      //       console.log('trexo 111');
+      //       this.enabled = response.enabled;
+      //       this.date = formatDate(
+      //         response.activeFor,
+      //         'yyyy-MM-ddTHH:mm',
+      //         this.locale
+      //       );
+      //       this.filterObject = response;
+      //       if (response.numOfResponses != this.filterObject.numOfResponses) {
+      //       }
+      //       return {
+      //         dataState: DataState.LOADED,
+      //         appData: response,
+      //       };
+      //     }),
+      //     startWith({
+      //       dataState: DataState.LOADING,
+      //     }),
+      //     catchError((error: string) => {
+      //       console.log(error);
+      //       return of({ dataState: DataState.ERROR, error });
+      //     })
+      //   );
+    } else {
+      // let filter$ = this.filterService
+      //   .filter$(this.filter, this.questionnaireId)
+      //   .pipe(
+      //     map((response) => {
+      //       console.log('trexo 2 222');
+      //       this.enabled = response.enabled;
+      //       this.date = formatDate(
+      //         response.activeFor,
+      //         'yyyy-MM-ddTHH:mm',
+      //         this.locale
+      //       );
+      //       console.log(
+      //         response.numOfResponses +
+      //           'XXXXX ' +
+      //           this.filterObject.numOfResponses
+      //       );
+      //       if (response.numOfResponses != this.filterObject.numOfResponses) {
+      //         this.responseDiference =
+      //           response.numOfResponses - this.filterObject.numOfResponses;
+      //         this.changeHappend.next(true);
+      //         this.filterState$ = filter$;
+      //       }
+      //       this.filterObject = response;
+      //       return {
+      //         dataState: DataState.LOADED,
+      //         appData: response,
+      //       };
+      //     }),
+      //     startWith({
+      //       dataState: DataState.LOADING,
+      //     }),
+      //     catchError((error: string) => {
+      //       console.log(error);
+      //       return of({ dataState: DataState.ERROR, error });
+      //     })
+      //   );
+      // this.newFilterSubscription = filter$.subscribe();
+    }
   }
 
   checkValue(event: any) {
@@ -67,125 +164,100 @@ export class QuestionnareStatsComponent implements OnInit {
     this.updateFilter();
   }
 
-  private updateFilter() {
-    this.genericSerivce.$update(this.filterObject,'/v2/filter/update/').subscribe(
-      (response: any) => {
-        console.log(response);
-      },
-      (error: HttpErrorResponse) => {
+  private getFilter(filter: string) {
+    return this.genericSerivce
+      .$one(this.questionnaireId, '/v2/filter/', '?filter=' + filter)
+      .pipe(
+        map((response) => {
+          console.log('trexo 111');
+
+          this.enabled = response.data.filter.enabled;
+          this.date = formatDate(
+            response.data.filter.activeFor,
+            'yyyy-MM-ddTHH:mm',
+            this.locale
+          );
+          this.filterObject = response.data.filter;
+
+          return {
+            dataState: DataState.LOADED,
+            appData: response,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADING,
+        }),
+        catchError((error: string) => {
+          console.log(error);
+          return of({ dataState: DataState.ERROR, error });
+        })
+      );
+  }
+
+  private updateView() {
+    this.filterState$ = this.latestFilter$.pipe(
+      map((response) => {
+        console.log('AAAAAAAAAAAAAAAAAAAAA:C');
+
+        this.enabled = response.data.filter.enabled;
+        this.date = formatDate(
+          response.data.filter.activeFor,
+          'yyyy-MM-ddTHH:mm',
+          this.locale
+        );
+        this.filterObject = response.data.filter;
+        return {
+          dataState: DataState.LOADED,
+          appData: response,
+        };
+      }),
+      startWith({
+        dataState: DataState.LOADING,
+      }),
+      catchError((error: string) => {
         console.log(error);
-      }
+        return of({ dataState: DataState.ERROR, error });
+      })
     );
   }
-  private getStats() {
-    if (this.filterObject == undefined) {
-      this.filterState$ = this.filterService
-        .filter$(this.filter, this.questionnaireId)
-        .pipe(
-          map((response) => {
-            console.log('trexo 111');
 
-            this.enabled = response.enabled;
-            this.date = formatDate(
-              response.activeFor,
-              'yyyy-MM-ddTHH:mm',
-              this.locale
-            );
-            this.filterObject = response;
+  private checkFilterForChanges(filter: string) {
+    let filterObservable = this.genericSerivce.$one(
+      this.questionnaireId,
+      '/v2/filter/',
+      '?filter=' + filter
+    );
 
-            if (response.numOfResponses != this.filterObject.numOfResponses) {
-            }
-
-            return {
-              dataState: DataState.LOADED,
-              appData: response,
-            };
-          }),
-          startWith({
-            dataState: DataState.LOADING,
-          }),
-          catchError((error: string) => {
-            console.log(error);
-            return of({ dataState: DataState.ERROR, error });
-          })
-        );
-    } else {
-      let filter$ = this.filterService
-        .filter$(this.filter, this.questionnaireId)
-        .pipe(
-          map((response) => {
-            console.log('trexo 2 222');
-
-            this.enabled = response.enabled;
-            this.date = formatDate(
-              response.activeFor,
-              'yyyy-MM-ddTHH:mm',
-              this.locale
-            );
-
-            console.log(
-              response.numOfResponses +
-                'XXXXX ' +
-                this.filterObject.numOfResponses
-            );
-            if (response.numOfResponses != this.filterObject.numOfResponses) {
-              this.responseDiference =
-                response.numOfResponses - this.filterObject.numOfResponses;
-              this.changeHappend.next(true);
-              this.filterState$ = filter$;
-            }
-            this.filterObject = response;
-
-            return {
-              dataState: DataState.LOADED,
-              appData: response,
-            };
-          }),
-          startWith({
-            dataState: DataState.LOADING,
-          }),
-          catchError((error: string) => {
-            console.log(error);
-            return of({ dataState: DataState.ERROR, error });
-          })
-        );
-
-      this.newFilterSubscription = filter$.subscribe();
-    }
+    let subscription = filterObservable.subscribe((response) => {
+      console.log('checking for changes');
+      if (
+        response.data.filter.numOfResponses != this.filterObject.numOfResponses
+      ) {
+        this.responseDiference =
+          response.data.filter.numOfResponses -
+          this.filterObject.numOfResponses;
+        this.changeHappend.next(true);
+        console.log('change happend');
+      }
+    });
+    this.latestFilter$ = filterObservable;
   }
 
-  private setStats() {
-    
-      return this.genericSerivce
-        .$one(0, '/v2/filter', '?filter=' + this.filter)
-        .pipe(
-          map((response) => {
-            this.enabled = response.data.filter.enabled;
-            this.date = formatDate(
-              response.data.filter.activeFor,
-              'yyyy-MM-ddTHH:mm',
-              this.locale
-            );
-
-            this.filterObject = response.data.filter;
-            return {
-              dataState: DataState.LOADED,
-              appData: response.data.filter,
-            };
-          }),
-          startWith({
-            dataState: DataState.LOADING,
-          }),
-          catchError((error: string) => {
-            console.log(error);
-            return of({ dataState: DataState.ERROR, error });
-          })
-        );
-    
+  private updateFilter() {
+    this.genericSerivce
+      .$update(this.filterObject, '/v2/filter/update/')
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy(): void {
-    this.statsSubscription.unsubscribe();
+    //this.statsSubscription.unsubscribe();
     //this.newFilterSubscription.unsubscribe();
   }
 }

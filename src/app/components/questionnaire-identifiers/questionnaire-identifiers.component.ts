@@ -57,6 +57,7 @@ export class QuestionnaireIdentifiersComponent implements OnInit {
     }
   }
 
+
   public setFilter(form:NgForm){
     let values = Object.values(form.value);
     values.sort((n1,n2) =>{

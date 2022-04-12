@@ -1,14 +1,13 @@
-
 <div class="alert alert-success" id="change" role="alert" style="display: none;">
     <span id="successMessage"></span>
 </div>
 <!--IDENNTIFIERS BLOCK-->
 <app-questionnaire-identifiers (newFilterEvent)="getFilter($event)"></app-questionnaire-identifiers>
 
-<div *ngIf=" resultIsPresent" class="row" >
+<div *ngIf=" resultIsPresent" class="row">
 
 
-    <div class="col-8 results" *ngIf="(qResultState$|async) as qResultState"[ngSwitch]="qResultState.dataState">
+    <div class="col-8 results" *ngIf="(qResultState$|async) as qResultState" [ngSwitch]="qResultState.dataState">
 
         <div *ngSwitchCase="DataState.LOADING" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
@@ -37,13 +36,15 @@
                     </div>
                     <!-- Apotelesmata Katigorias -->
                     <div *ngFor="let question of group.questions" class="row ">
-                        <div class="col text-center"
+                        <div class="col text-center d-flex justify-content-center align-items-xl-center"
                             style="border-right: 1px solid;border-bottom: 1px solid;padding: 5px;">
                             <span style="font-size:large">{{question.question}}</span>
 
                         </div>
                         <div class="col text-center" style="border-bottom: 1px solid;padding: 5px;">
-                            <span style="font-size:large">{{question.result}}</span>
+                            <!-- <span style="font-size:large">{{question.result}}</span> -->
+                            <canvas baseChart [data]="createDataSet(question.resultMap)"  [type]="'bar'" [legend]="barChartLegend" [options]="options">
+                            </canvas>
                         </div>
                     </div>
                 </div>
@@ -79,7 +80,8 @@
 
                     <div class="d-flex justify-content-xl-center ">
                         <button class="btn btn-info" onclick="plusDivs(-1);showCounter()">❮ Προηγούμενο</button>
-                        <button class="btn btn-info" onclick="plusDivs(1);showCounter()" style="margin-left: 5px;">Επόμενο
+                        <button class="btn btn-info" onclick="plusDivs(1);showCounter()"
+                            style="margin-left: 5px;">Επόμενο
                             ❯</button>
                     </div>
                 </div>
@@ -93,7 +95,7 @@
     </div>
 
     <!-- ASIDE COMPONTENT -->
-    <div class="col border"  style="margin: 15px;padding: 15px;">
+    <div class="col border" style="margin: 15px;padding: 15px;">
         <h4>Λεπτομέρειες</h4>
         <questionnare-stats [parentFilter]="filter"></questionnare-stats>
     </div>

@@ -4,6 +4,7 @@ export class Question{
     userResponse?:string;
     responseId?:number;
     result?:string;
+    resultMap?:Record<string,number>
     responseType:string;
     eligibleResponses:string[];
 }

@@ -50,7 +50,7 @@
                                     <!-- GIA KATHE FILTER ENTRY -->
                                     <div *ngFor="let entry of qResponse.decodedFilter | keyvalue">
                                         <div class="">
-                                            <span class="">{{entry.key}} :</span>
+                                            <span class="">{{IdentifierType[entry.key]}} :</span>
                                             <span class=""> {{entry.value}}</span>
                                         </div>
 

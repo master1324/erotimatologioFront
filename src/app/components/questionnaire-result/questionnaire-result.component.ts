@@ -10,6 +10,9 @@ import { QuestionnaireService } from 'src/app/service/questionnaire.service';
 import { QuestionnareStatsComponent } from '../questionnare-stats/questionnare-stats.component';
 import $ from 'jquery';
 import { GenericService } from 'src/app/service/generic.service';
+import html2canvas from 'html2canvas';
+import jspdf, { jsPDF } from 'jspdf';
+import domToPdf from 'dom-to-pdf';
 
 @Component({
   selector: 'app-questionnaire-result',
@@ -67,7 +70,7 @@ export class QuestionnaireResultComponent implements OnInit {
 
     if(this.resultIsPresent){
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
-        (response) =>{
+        (response:any) =>{
           if(response){
             console.log(response);
             //this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
@@ -93,8 +96,7 @@ export class QuestionnaireResultComponent implements OnInit {
     //alagi gia na doulebi kai sta dio states
     if(this.qResultState$ == undefined){
       this.changeHappendSubscription=this.child.changeHappend$.subscribe(
-        (response) =>{
-          console.log("APO EDOOO");
+        (response:any) =>{
           if(response){
             this.showChangeHappendDiv("Προστεθήκαν " + this.child.responseDiference + " απαντήσεις")
             if(!this.isFirstTime){
@@ -130,16 +132,65 @@ export class QuestionnaireResultComponent implements OnInit {
       );
   }
 
+  // public printPdf(){
+
+  //   let data = document.getElementById('pdf'); 
+
+  //   html2canvas(data, { allowTaint: true }).then(canvas => {
+  //     let HTML_Width = canvas.width;
+  //     let HTML_Height = canvas.height;
+  //     let top_left_margin = 15;
+  //     let PDF_Width = HTML_Width + (top_left_margin * 2);
+  //     let PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+  //     let canvas_image_width = HTML_Width;
+  //     let canvas_image_height = HTML_Height;
+  //     let totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+  //     canvas.getContext('2d');
+  //     let imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //     let pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+  //     pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+  //     for (let i = 1; i <= totalPDFPages; i++) {
+  //       pdf.addPage([PDF_Width, PDF_Height], 'p');
+  //       pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+  //     }
+  //      pdf.save("HTML-Document.pdf");
+  //   });
+
+  // }
+
+  printPdf = () => {
+    //let identifiers = document.querySelector('.ident-pdf');
+    let element = document.getElementById('pdf'); 
+    let html = element.outerHTML;
+    console.log(html);
+    
+    //identifiers.append(element)
+
+    //element.querySelector('.pdf-ignore').remove();
+    let options = {
+      filename: "test.pdf",
+    };
+    
+    // return domToPdf(element, options, () => {
+    //   // callback function
+    // });
+  }
+
+
+
   public createDataSet(resultMap:Record<string,number>){
 
     //Math.max.apply(Math, Object.values(resultMap).map(function(o) { return o.y; }))
     let indexOfMaxValue = Object.values(resultMap).reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-    let colors = ["red","red","red","red","red"]
-    colors[indexOfMaxValue] ="green"
+    let colors = ["rgba(255, 0, 0, 0.5)","rgba(255, 0, 0, 0.5)","rgba(255, 0, 0, 0.5)","rgba(255, 0, 0, 0.5)","rgba(255, 0, 0, 0.5)"]
+    let backgroundColor =["rgba(255, 0, 0, 1)","rgba(255, 0, 0, 1)","rgba(255, 0, 0, 1)","rgba(255, 0, 0, 1)","rgba(255, 0, 0,1)"]
+    colors[indexOfMaxValue] ="rgba(39, 245, 75, 0.7)"
+    backgroundColor[indexOfMaxValue] ="rgba(39, 245, 75, 1)"
     return{
       datasets:[{
         data: resultMap,
-        backgroundColor: colors
+        backgroundColor: colors,
+        hoverBackgroundColor: backgroundColor
       }]
     }
   }

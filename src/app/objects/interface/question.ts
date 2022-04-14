@@ -1,4 +1,4 @@
-export class Question{
+export interface Question{
     id:number;
     question:string;
     userResponse?:string;

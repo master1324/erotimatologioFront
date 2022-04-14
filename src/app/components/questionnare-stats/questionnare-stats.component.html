@@ -31,6 +31,9 @@
                 <input (input)="dateChanged()"  class="form-control" type="datetime-local" value="{{filterState.appData.data.filter.activeFor | date:'yyyy-MM-ddTHH:mm'}}" [(ngModel)]="date" >
             </div>
         </div>
+        <div style="display: none;">
+            <button (click)="printPdf()" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> | Αποθήκευση ως PDF</button>
+        </div>
 
         
 

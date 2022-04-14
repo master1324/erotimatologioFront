@@ -3,11 +3,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import {
   Component,
+  EventEmitter,
   Inject,
   Input,
   LOCALE_ID,
   NgZone,
   OnInit,
+  Output,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subscription, timer } from 'rxjs';
@@ -41,6 +43,7 @@ export class QuestionnareStatsComponent implements OnInit {
   private newFilterSubscription: Subscription;
   public responseDiference: number;
   @Input() parentFilter: string;
+  @Output() pfdClick = new EventEmitter()
 
   private latestFilter$: Observable<AppResponse>;
 
@@ -80,7 +83,9 @@ export class QuestionnareStatsComponent implements OnInit {
     });
   }
 
-  doSomthing() {}
+  printPdf(){
+    this.pfdClick.emit();
+  }
 
   private getStats() {
     if (this.filterObject == undefined) {

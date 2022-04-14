@@ -2,7 +2,7 @@ export enum IdentifierType{
     TEACHER ='Καθηγητή',
     SUBJECT ='Μάθημα',
     DEPARTMENT ='Τμήμα',
-    EXAMINO ='Εξάμηνο',
-    SEMESTER ='Αριθμό Εξαμήνου',
+    SEMESTER ='Εξάμηνο',
+    EXAMINO ='Αριθμό Εξαμήνου',
     YEAR ='Έτος'
 }

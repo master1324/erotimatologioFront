@@ -15,8 +15,8 @@
             </div>
         </div>
 
-        <div *ngSwitchCase="DataState.LOADED">
-            <div class="border rounded" *ngFor="let group of qResultState.appData.questionnaire"
+        <div *ngSwitchCase="DataState.LOADED" id="pdf" class="pdf">
+            <div  class="border rounded" *ngFor="let group of qResultState.appData.questionnaire"
                 style="margin: 15px;padding: 15px;">
                 <div class="d-flex justify-content-xl-between align-items-xl-center">
                     <h4>{{group.name}}</h4>
@@ -24,7 +24,7 @@
                 </div>
 
 
-                <div *ngIf="group.responseType != 'TEXT'" class="container border" style="margin-top: 15px;">
+                <div  *ngIf="group.responseType != 'TEXT'" class="container border" style="margin-top: 15px;">
                     <!-- Header katigorias -->
                     <div class="row">
                         <div class="col text-center" style="border-bottom: 1px solid;border-right:1px solid;">
@@ -43,14 +43,14 @@
                         </div>
                         <div class="col text-center" style="border-bottom: 1px solid;padding: 5px;">
                             <!-- <span style="font-size:large">{{question.result}}</span> -->
-                            <canvas baseChart [data]="createDataSet(question.resultMap)"  [type]="'bar'" [legend]="barChartLegend" [options]="options">
+                            <canvas baseChart [data]="createDataSet(question.resultMap)"  [type]="'bar'" [legend]="barChartLegend" [options]="options" hoverBackgroundColor="black">
                             </canvas>
                         </div>
                     </div>
                 </div>
 
 
-                <div *ngIf="group.responseType == 'TEXT'">
+                <div *ngIf="group.responseType == 'TEXT'" class="pdf-ignore">
 
                     <div>
                         <div *ngFor="let question of group.questions">
@@ -97,6 +97,6 @@
     <!-- ASIDE COMPONTENT -->
     <div class="col border" style="margin: 15px;padding: 15px;">
         <h4>Λεπτομέρειες</h4>
-        <questionnare-stats [parentFilter]="filter"></questionnare-stats>
+        <questionnare-stats [parentFilter]="filter" (pfdClick)="printPdf()"></questionnare-stats>
     </div>
 </div>

@@ -1,3 +1,7 @@
+
+<div class="ident-pdf">
+
+
 <div *ngIf="!filterIsPresent &&(qIdentifierState$ | async) as identifiersState" [ngSwitch]="identifiersState.dataState"
     style="margin: 15px;">
 
@@ -47,7 +51,7 @@
                             </div>
 
                             <!-- ENABLED AND DURATION -->
-                            <div *ifRoles='["ROLE_ADMIN","ROLES_TEACHER"]' class="border-top"
+                            <div *ifRoles='["ROLE_ADMIN","ROLES_TEACHER"]' class="border-top pdf-ignore"
                                 style="margin-top: 15px;margin-bottom: 15px;padding-top: 15px;">
 
                                     <div class="row">
@@ -72,7 +76,7 @@
 
 
                             <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' style="margin-top: 10px;"
-                                class="col d-flex flex-column justify-content-xl-center align-items-xl-start">
+                                class="col d-flex flex-column justify-content-xl-center align-items-xl-start pdf-ignore">
                                 <input type="submit" value="Ενεργοποίηση Ερωτηματολογίου" class="btn btn-primary"
                                     [disabled]="identifierForm.invalid">
                             </div>
@@ -85,7 +89,7 @@
 
                         </form>
                         <!-- COPY URL  -->
-                        <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' style="margin-top: 25px;">
+                        <div *ifRoles='["ROLE_ADMIN","ROLE_TEACHER"]' style="margin-top: 25px;" class="pdf-ignore">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Σύνδεσμος Ερωτηματολογίου"
                                     aria-label="Link Errotimatologiou" aria-describedby="basic-addon2"
@@ -181,7 +185,7 @@
                                     </div>
                             </div> -->
                         <!-- COPY URL  -->
-                        <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 25px;">
+                        <div *ifRoles='["ROLE_ADMIN"]' style="margin-top: 25px;" class="pdf-ignore">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Σύνδεσμος Ερωτηματολογίου"
                                     aria-label="Link Errotimatologiou" aria-describedby="basic-addon2"
@@ -210,4 +214,5 @@
         ERROR
     </div>
 
+</div>
 </div>

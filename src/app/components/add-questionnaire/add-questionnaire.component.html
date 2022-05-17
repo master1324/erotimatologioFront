@@ -24,7 +24,7 @@
 
                 <select (change)="onSelectChange($event)" class="form-select" id="inputGroupSelect02">
                     <option value="-1" selected>Επιλέξτε Αναγνωριστικό</option>
-                    <option *ngFor="let identifierType of identifierKeys();let idIndex=index" value="{{idIndex}}">
+                    <option *ngFor="let identifierType of identifierValues();let idIndex=index" value="{{idIndex}}">
                         {{identifierType}}</option>
                 </select>
 
@@ -37,7 +37,7 @@
                 <div id="identifiersSelected" class="d-flex border rounded"
                     *ngFor="let identifier of identifiers().controls; let idIndex=index" style="padding: 5px;">
                     <div style="margin-right: 5px;">
-                        {{identifierKeys()[identifier.value]}}
+                        {{identifierValues()[identifier.value]}}
                     </div>
                     <!--REMOVE IDENTIFIER-->
                     <button type="button" class="btn-close" aria-label="Close"

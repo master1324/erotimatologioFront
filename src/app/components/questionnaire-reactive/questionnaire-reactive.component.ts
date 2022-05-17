@@ -61,7 +61,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
 
   public save(){  
     this.isLoading.next(true);
-
+  
     this.genericService.$save(this.responses,'/v2/response/addAll')
     .subscribe(
       (response:any)=>{

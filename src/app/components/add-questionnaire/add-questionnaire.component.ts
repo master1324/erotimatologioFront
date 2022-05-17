@@ -26,6 +26,7 @@ export class AddQuestionnaireComponent implements OnInit {
   public selectedOption:string;
   appState$: Observable<AppState<Questionnaire[]>>;
   readonly dataState:DataState;
+  readonly IdentifierType:IdentifierType;
 
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
@@ -43,7 +44,6 @@ export class AddQuestionnaireComponent implements OnInit {
 
   onSubmit() {
     this.isLoading.next(true);
-
     this.genericService.$save(this.questionnaireForm.value,'/v2/quest/add').subscribe(
       (response:any)=>{
         console.log(response);

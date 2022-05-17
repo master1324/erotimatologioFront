@@ -154,10 +154,10 @@ export class EditQuestionnaireComponent implements OnInit {
     return formGroups;
   }
 
-  private setUpForm(){
+  private setUpForm(){   
     this.questionnaireForm = this.fb.group({
       id:[this.questionnaire.id, Validators.required],
-      identifiers:[this.questionnaire.identifiers, Validators.required],
+      identifiers:[this.questionnaire.identifiers],
       name: [this.questionnaire.name, Validators.required],
       shortDescription: [this.questionnaire.shortDescription, Validators.required],
       enabled:[this.questionnaire.enabled],

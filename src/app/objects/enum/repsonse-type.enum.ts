@@ -1,5 +1,5 @@
 export enum ResponseType{
-    TRUE_FALSE = "NAI-OXI"
-    ,MULTI5 = "KATHOLOU-POLI"
-    ,TEXT = "APANTISI ME KEIMENO"
+    TRUE_FALSE = "ΝΑΙ ή ΟΧΙ"
+    ,MULTI5 = "ΚΑΘΟΛΟΥ έως ΠΑΡΑ ΠΟΛΥ"
+    ,TEXT = "ΑΠΑΝΤΗΣΗ ΜΕ ΚΕΙΜΕΝΟ"
 }

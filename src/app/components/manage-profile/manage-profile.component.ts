@@ -35,7 +35,13 @@ export class ManageProfileComponent implements OnInit {
   }
 
   onSubmit(){
-
+    console.log({
+      username:this.updateForm.value.username,
+      oldPassword:this.updateForm.value.oldPassword,
+      newPassword:this.updateForm.value.passwords.password,
+      email:this.updateForm.value.email
+    });
+    
     this.genericService.$update({
       username:this.updateForm.value.username,
       oldPassword:this.updateForm.value.oldPassword,

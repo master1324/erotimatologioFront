@@ -74,7 +74,8 @@ export class UserManagmentComponent implements OnInit {
 
   onAddTeacherSubmit() {
     this.isLoading.next(true);
-
+    console.log(this.addTeacherForm.value);
+    
     let listofindex = this.addTeacherForm.value.subjects;
     let listofindex2 = this.addTeacherForm.value.departments;
     this.addTeacherForm.value.subjects = this.subjectsArray.filter((a, b) =>

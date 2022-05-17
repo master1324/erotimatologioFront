@@ -1,6 +1,6 @@
 {
   "name": "erotimatologio-front",
-  "version": "0.0.0",
+  "version": "0.6.9",
   "heroku-postbuild": "ng build — prod",
   "engines": { "node": "16.13.2","npm": "8.5.2"},
   "start" : "node server.js",

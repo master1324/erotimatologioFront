@@ -87,6 +87,7 @@ export class QuestionnaireReactiveComponent implements OnInit {
     $("#saved").fadeIn().css("display","inline-block");
     document.getElementById("successMessage").innerHTML = message;
     $('#saved').delay(4000).fadeOut('slow');
+   
   }
 
   public showErrorDiv(message:string){

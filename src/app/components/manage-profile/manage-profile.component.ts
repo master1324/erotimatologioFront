@@ -78,7 +78,7 @@ export class ManageProfileComponent implements OnInit {
     this.updateForm = this.fb.group({
       username: [this.user.username, [Validators.required]],
       email: [
-        this.user.email,
+        {value:this.user.email,disabled: true},
         [
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
           Validators.required,

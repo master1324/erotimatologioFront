@@ -15,7 +15,6 @@ import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SeeResponsesComponent } from './components/see-responses/see-responses.component';
-import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { CounterDirective } from './objects/directives/counter.directive';
 import { QuestionnaireReactiveComponent } from './components/questionnaire-reactive/questionnaire-reactive.component';
 import { AddQuestionnaireComponent } from './components/add-questionnaire/add-questionnaire.component';
@@ -41,9 +40,7 @@ import { NgChartsModule } from 'ng2-charts'
     HomeComponent,
     NavigationComponent,
     RegisterComponent,
-    QuestionnaireComponent,
     SeeResponsesComponent,
-    QuestionnaireComponent,
     CounterDirective,
     QuestionnaireReactiveComponent,
     AddQuestionnaireComponent,

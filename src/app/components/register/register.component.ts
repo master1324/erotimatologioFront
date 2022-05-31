@@ -11,7 +11,6 @@ import {
 import { Router } from '@angular/router';
 import $ from 'jquery';
 import { GenericService } from 'src/app/service/generic.service';
-import { RegisterService } from 'src/app/service/register.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +23,6 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private registerService: RegisterService,
     private router: Router,
     private genericService:GenericService
   ) {}

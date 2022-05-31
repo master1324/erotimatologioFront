@@ -6,7 +6,6 @@ import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from 'src/app/objects/enum/data-state.enum';
 import { AppState } from 'src/app/objects/interface/app-state';
 import { Questionnaire } from 'src/app/objects/interface/questionnaire';
-import { QuestionnaireService } from 'src/app/service/questionnaire.service';
 import { QuestionnareStatsComponent } from '../questionnare-stats/questionnare-stats.component';
 import $ from 'jquery';
 import { GenericService } from 'src/app/service/generic.service';
@@ -44,7 +43,6 @@ export class QuestionnaireResultComponent implements OnInit {
   @ViewChild(QuestionnareStatsComponent) child;
 
   constructor(
-    private questionnaireService: QuestionnaireService,
     private genericService:GenericService,
     private route: ActivatedRoute
   ) {

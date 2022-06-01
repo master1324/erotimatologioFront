@@ -69,7 +69,7 @@ export class QuestionnareStatsComponent implements OnInit {
 
     setInterval(() => {
       this.checkFilterForChanges(this.filter);
-    }, 5 * 1000);
+    }, 60 * 1000);
 
     // this.statsSubscription = timer(0, this.reloadInterval)
     //   .pipe(mergeMap(async (_) =>this.doSomthing()))

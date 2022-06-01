@@ -5,11 +5,10 @@
     "node": "16.13.2",
     "npm": "8.5.2"
   },
-  "start": "node server.js",
   "scripts": {
     "heroku-postbuild": "npm run build:prod",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng server.js",
     "build": "ng build--prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

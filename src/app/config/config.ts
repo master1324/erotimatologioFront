@@ -1,3 +1,3 @@
 export const config = {
-    apiUrl: 'https://erotimatologio.herokuapp.com'
+    apiUrl: 'http://localhost:8080'
   };

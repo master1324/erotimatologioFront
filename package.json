@@ -7,10 +7,10 @@
   },
   "start": "node server.js",
   "scripts": {
-    "heroku-postbuild": "ng build",
+    "heroku-postbuild": "npm run build:prod",
     "ng": "ng",
     "start": "ng server.js",
-    "build": "ng build",
+    "build": "ng build--prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -50,7 +50,8 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.11",
-  
+    "@angular/cli": "~12.2.11",
+    "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",

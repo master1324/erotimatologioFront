@@ -9,7 +9,7 @@
   "scripts": {
     "heroku-postbuild": "npm run build:prod",
     "ng": "ng",
-    "start": "ng server.js",
+    "start": "ng serve",
     "build": "ng build--prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

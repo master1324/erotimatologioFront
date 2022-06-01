@@ -6,7 +6,7 @@
     "npm": "8.5.2"
   },
   "scripts": {
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build",
     "ng": "ng",
     "start": "ng server.js",
     "watch": "ng build --watch --configuration development",
